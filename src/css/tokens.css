@@ -1,0 +1,61 @@
+/* ==========================================================================
+   DEARMYDREAM.ID DESIGN TOKENS
+   Soft Neo-Brutalism x Scrapbook (Sage & Lime Palette from Profile Picture)
+   ========================================================================== */
+
+:root {
+  /* --- Primary Color Palette (Extracted directly from Profile Picture) --- */
+  --color-bg-sage: #748C7B;            /* Sage Canvas */
+  --color-bg-sage-dark: #586F5E;       /* Deep Sage Footer & Accents */
+  --color-bg-canvas: #FAFDF9;          /* Crisp Milk White Surface */
+  --color-bg-card: #FFFFFF;            /* Pure Card White */
+
+  /* --- Accent Colors --- */
+  --color-bubble-green: #6ECC65;       /* "DEAR" Bubble Green */
+  --color-pastel-mint: #AEF29C;        /* "DREAM" Pastel Mint */
+  --color-pastel-mint-light: #DDFAD7;  /* Soft Mint Hover/Pill */
+  --color-neobong-neon: #D1F737;       /* Neobong Neon CTA Lime */
+  --color-sparkle-gold: #FEF08A;       /* Golden Sparkle & Washi Tape */
+  --color-soft-peach: #FED7AA;         /* Soft Peach Washi Tape */
+
+  /* --- Badges & Highlights --- */
+  --color-badge-mark: #FED7AA;         /* Soft Orange/Tiger */
+  --color-badge-dream: #AEF29C;        /* Mint Dream */
+  --color-status-live: #22C55E;        /* Live Green Dot */
+
+  /* --- Neo-Brutal Solid Ink Strokes & Drop-Shadows --- */
+  --color-ink: #16281E;                /* Deep Forest Ink (No harsh raw black) */
+  --color-ink-muted: #3D5545;          /* Muted Subtitle Ink */
+  --color-ink-light: #5A7563;          /* Light Secondary Text */
+  --color-white: #FFFFFF;
+
+  /* --- Borders & Outlines --- */
+  --border-thin: 1.5px solid var(--color-ink);
+  --border-med: 2px solid var(--color-ink);
+  --border-thick: 2.5px solid var(--color-ink);
+  --border-heavy: 3.5px solid var(--color-ink);
+
+  /* --- Hard Solid Shadows (Signature Neo-Brutalism) --- */
+  --shadow-sm: 2px 2px 0px var(--color-ink);
+  --shadow-md: 4px 4px 0px var(--color-ink);
+  --shadow-lg: 6px 6px 0px var(--color-ink);
+  --shadow-xl: 8px 8px 0px var(--color-ink);
+  --shadow-active: 1px 1px 0px var(--color-ink);
+
+  /* --- Radii (Soft, Friendly Curves) --- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-full: 9999px;
+
+  /* --- Typography --- */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-handwritten: 'Caveat', cursive, sans-serif;
+
+  /* --- Transitions --- */
+  --transition-fast: 0.15s ease-out;
+  --transition-spring: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+
+# Scratch & temporary scrape dumps
+scratch_*.html
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
