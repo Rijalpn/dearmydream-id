@@ -6,6 +6,8 @@
 @import './tokens.css';
 @import './components.css';
 @import './preloader.css';
+@import './sparkles.css';
+@import './player.css';
 
 /* --- Base & Reset --- */
 *, *::before, *::after {

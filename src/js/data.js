@@ -26,6 +26,7 @@ export const eventsArchive = [
     ],
     details: {
       location: "Cornerstone Classroom, Paskal Hyper Square, Bandung",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cornerstone+Classroom+Paskal+Hyper+Square+Bandung",
       dresscode: "Daster / Piyama (Paling nyaman & santai)",
       activities: [
         "NCT Dream 10th Anniversary Sweet Dream Hotel Party",
@@ -70,6 +71,7 @@ export const eventsArchive = [
     ],
     details: {
       location: "Kolato Cijagra, Kota Bandung",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kolato+Cijagra+Kota+Bandung",
       dresscode: "Casual Chic / Touch of Neo Lime & Earth Tone",
       activities: [
         "Nobar (Nonton Bareng) Dokumenter & Konser Mark Lee",

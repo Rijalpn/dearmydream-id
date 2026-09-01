@@ -1,0 +1,408 @@
+/* ==========================================================================
+   MINI VINYL BGM PLAYER & POSTER ZOOM LIGHTBOX STYLES
+   ========================================================================== */
+
+/* --- Floating Vinyl Widget Container --- */
+#vinyl-widget-container {
+  position: fixed;
+  bottom: clamp(1rem, 3vw, 1.5rem);
+  left: clamp(1rem, 3vw, 1.5rem);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Compact Floating Trigger Pill */
+.vinyl-trigger-btn {
+  background: var(--color-bg-card, #FFFFFF);
+  border: var(--border-thick, 2.5px solid #16281E);
+  border-radius: var(--radius-full, 999px);
+  padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+  box-shadow: var(--shadow-md, 4px 4px 0px #16281E);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.vinyl-trigger-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-lg, 6px 6px 0px #16281E);
+}
+
+.vinyl-disc-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #16281E 35%, #D1F737 38%, #16281E 42%, #264332 100%);
+  border: 1.5px solid #16281E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 0px #16281E;
+  flex-shrink: 0;
+}
+
+.vinyl-disc-mini.spinning {
+  animation: spinVinyl 3s linear infinite;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vinyl-disc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #D1F737;
+  border: 1px solid #16281E;
+}
+
+.vinyl-label-text {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Mini Equalizer Waves when playing */
+.vinyl-equalizer {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+#vinyl-widget-container.is-playing .vinyl-equalizer {
+  display: flex;
+}
+
+.eq-bar {
+  width: 3px;
+  background: var(--color-bubble-green, #6ECC65);
+  border-radius: 2px;
+  animation: eqJump 0.8s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.eq-bar:nth-child(3) { height: 40%; animation-delay: 0.5s; }
+
+@keyframes eqJump {
+  0% { height: 25%; }
+  100% { height: 100%; }
+}
+
+/* Expanded Scrapbook Cassette Player Card */
+.vinyl-player-card {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  width: 280px;
+  background: #FAFDF9;
+  border: var(--border-thick, 2.5px solid #16281E);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: var(--shadow-lg, 6px 6px 0px #16281E);
+  padding: 1.15rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: cardSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 950;
+}
+
+.vinyl-player-card.active {
+  display: flex;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.player-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player-tape-tag {
+  background: rgba(254, 240, 138, 0.95);
+  padding: 2px 8px;
+  border: 1px solid var(--color-ink, #16281E);
+  border-radius: var(--radius-sm, 4px);
+  font-family: var(--font-handwritten, 'Caveat', cursive);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-ink, #16281E);
+  transform: rotate(-1deg);
+}
+
+.player-card-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-ink, #16281E);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.player-track-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-track-title {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  line-height: 1.2;
+}
+
+.player-track-sub {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-ink-muted, #365040);
+  margin-top: 2px;
+}
+
+.player-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.btn-player-play {
+  flex: 1;
+  background: var(--color-neobong-neon, #D1F737);
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: var(--radius-full, 999px);
+  padding: 0.5rem 0.85rem;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--color-ink, #16281E);
+  transition: transform 0.15s ease;
+}
+
+.btn-player-play:hover {
+  transform: translateY(-1px);
+}
+
+.btn-player-mute {
+  background: #FFFFFF;
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--color-ink, #16281E);
+}
+
+/* Hidden YouTube Iframe Mount */
+#yt-bgm-embed {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   POSTER ZOOM & MAPS BUTTON STYLES
+   ========================================================================== */
+
+/* Zoom Hint Overlay on Modal Poster */
+.modal-gallery-preview {
+  position: relative;
+  cursor: zoom-in;
+  border-radius: var(--radius-md, 12px);
+  overflow: hidden;
+  border: var(--border-thick, 2.5px solid #16281E);
+  box-shadow: var(--shadow-sm, 2px 2px 0px #16281E);
+}
+
+.poster-zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(22, 40, 30, 0.88);
+  color: #FFFFFF;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full, 999px);
+  border: 1px solid rgba(209, 247, 55, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.modal-gallery-preview:hover .poster-zoom-hint {
+  transform: scale(1.05);
+  background: #16281E;
+}
+
+/* Inline Direct Maps Button in Modal */
+.btn-maps-direct {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-neobong-neon, #D1F737);
+  border: 1.5px solid var(--color-ink, #16281E);
+  border-radius: var(--radius-full, 999px);
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  text-decoration: none;
+  box-shadow: 1.5px 1.5px 0px var(--color-ink, #16281E);
+  transition: transform 0.15s ease;
+}
+
+.btn-maps-direct:hover {
+  transform: translateY(-1px);
+  background: #E4FF54;
+}
+
+/* Fullscreen Poster Zoom Lightbox */
+#poster-zoom-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(14, 26, 19, 0.96);
+  backdrop-filter: blur(10px);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+#poster-zoom-lightbox.active {
+  display: flex;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.zoom-header-bar {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100010;
+}
+
+.zoom-title-badge {
+  background: #FAFDF9;
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: var(--radius-full, 999px);
+  padding: 4px 14px;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  box-shadow: 2px 2px 0px #16281E;
+}
+
+.zoom-toolbar {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FAFDF9;
+  border: 2.5px solid var(--color-ink, #16281E);
+  border-radius: var(--radius-full, 999px);
+  padding: 6px 12px;
+  box-shadow: 4px 4px 0px #16281E;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 100010;
+}
+
+.btn-zoom-action {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-ink, #16281E);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--color-ink, #16281E);
+  cursor: pointer;
+  box-shadow: 1px 1px 0px #16281E;
+  transition: transform 0.15s ease;
+}
+
+.btn-zoom-action:hover {
+  background: var(--color-neobong-neon, #D1F737);
+  transform: translateY(-1px);
+}
+
+.zoom-level-indicator {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-ink, #16281E);
+  min-width: 44px;
+  text-align: center;
+}
+
+.zoom-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#zoom-fullscreen-img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.1s ease-out;
+  user-select: none;
+}

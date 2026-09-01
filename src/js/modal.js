@@ -1,9 +1,16 @@
 /**
- * MEMORY CAPSULE MODAL MODULE
- * Lightbox & detail drawer for past events
+ * MEMORY CAPSULE MODAL & POSTER ZOOM VIEWER MODULE
+ * Lightbox, Google Maps direct route, and HD Zoom Viewer
  */
 
 import { eventsArchive } from './data.js';
+
+let activeZoomLevel = 1;
+let isPanning = false;
+let startX = 0;
+let startY = 0;
+let translateX = 0;
+let translateY = 0;
 
 export function initModal() {
   const backdrop = document.getElementById('memory-modal');
@@ -25,8 +32,13 @@ export function initModal() {
 
   // Close on ESC key
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && backdrop.classList.contains('active')) {
-      closeModal();
+    if (e.key === 'Escape') {
+      const zoomLightbox = document.getElementById('poster-zoom-lightbox');
+      if (zoomLightbox && zoomLightbox.classList.contains('active')) {
+        closeZoomLightbox();
+      } else if (backdrop.classList.contains('active')) {
+        closeModal();
+      }
     }
   });
 
@@ -42,6 +54,9 @@ export function initModal() {
       }
     });
   });
+
+  // Initialize Zoom Lightbox controls
+  initZoomControls();
 }
 
 export function openModal(eventData) {
@@ -76,8 +91,18 @@ export function openModal(eventData) {
       </p>
     </div>
 
-    <div class="modal-gallery-preview">
+    <!-- Click to Zoom Poster Container -->
+    <div class="modal-gallery-preview" role="button" tabindex="0" title="Klik / Tap untuk Zoom HD & Fullscreen" id="modal-poster-preview">
       <img id="modal-active-img" src="${eventData.coverImage}" alt="${eventData.title}">
+      <div class="poster-zoom-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+        <span>Ketuk untuk Zoom Poster HD 🔍</span>
+      </div>
     </div>
 
     <!-- Thumbnail Picker if multiple photos -->
@@ -92,15 +117,20 @@ export function openModal(eventData) {
     ` : ''}
 
     <div class="modal-info-grid">
-      <div class="modal-info-item">
-        <div class="modal-info-label">📍 Lokasi</div>
-        <div class="modal-info-val">${eventData.details.location}</div>
+      <div class="modal-info-item" style="grid-column: 1 / -1;">
+        <div class="modal-info-label">📍 Lokasi Venue</div>
+        <div class="modal-info-val" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+          <span>${eventData.details.location}</span>
+          <a href="${eventData.details.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-direct">
+            <span>Buka Google Maps ↗</span>
+          </a>
+        </div>
       </div>
       <div class="modal-info-item">
         <div class="modal-info-label">📅 Periode</div>
         <div class="modal-info-val">${eventData.dateFormatted}</div>
       </div>
-      <div class="modal-info-item" style="grid-column: 1 / -1;">
+      <div class="modal-info-item">
         <div class="modal-info-label">👗 Dresscode</div>
         <div class="modal-info-val">${eventData.details.dresscode}</div>
       </div>
@@ -129,6 +159,15 @@ export function openModal(eventData) {
     </div>
   `;
 
+  // Bind click to open Zoom Lightbox
+  const posterPreview = document.getElementById('modal-poster-preview');
+  if (posterPreview) {
+    posterPreview.addEventListener('click', () => {
+      const currentImgSrc = document.getElementById('modal-active-img').src;
+      openZoomLightbox(currentImgSrc, eventData.title);
+    });
+  }
+
   backdrop.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -138,4 +177,136 @@ export function closeModal() {
   if (!backdrop) return;
   backdrop.classList.remove('active');
   document.body.style.overflow = '';
+}
+
+/* ==========================================================================
+   HD PINCH-TO-ZOOM & FULLSCREEN LIGHTBOX
+   ========================================================================== */
+
+function initZoomControls() {
+  const zoomInBtn = document.getElementById('zoom-in-btn');
+  const zoomOutBtn = document.getElementById('zoom-out-btn');
+  const zoomResetBtn = document.getElementById('zoom-reset-btn');
+  const zoomCloseBtn = document.getElementById('zoom-close-btn');
+  const zoomImg = document.getElementById('zoom-fullscreen-img');
+  const zoomLightbox = document.getElementById('poster-zoom-lightbox');
+
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener('click', () => {
+      setZoomLevel(activeZoomLevel + 0.5);
+    });
+  }
+
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener('click', () => {
+      setZoomLevel(activeZoomLevel - 0.5);
+    });
+  }
+
+  if (zoomResetBtn) {
+    zoomResetBtn.addEventListener('click', () => {
+      resetZoom();
+    });
+  }
+
+  if (zoomCloseBtn) {
+    zoomCloseBtn.addEventListener('click', () => {
+      closeZoomLightbox();
+    });
+  }
+
+  if (zoomLightbox) {
+    zoomLightbox.addEventListener('click', (e) => {
+      if (e.target === zoomLightbox) {
+        closeZoomLightbox();
+      }
+    });
+  }
+
+  // Double tap / click to toggle zoom
+  if (zoomImg) {
+    zoomImg.addEventListener('dblclick', () => {
+      if (activeZoomLevel > 1) {
+        resetZoom();
+      } else {
+        setZoomLevel(2.2);
+      }
+    });
+
+    // Drag to pan when zoomed in
+    zoomImg.addEventListener('pointerdown', (e) => {
+      if (activeZoomLevel <= 1) return;
+      isPanning = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      zoomImg.style.cursor = 'grabbing';
+      zoomImg.setPointerCapture(e.pointerId);
+    });
+
+    zoomImg.addEventListener('pointermove', (e) => {
+      if (!isPanning) return;
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      applyTransform();
+    });
+
+    const stopPan = () => {
+      isPanning = false;
+      if (zoomImg) zoomImg.style.cursor = activeZoomLevel > 1 ? 'grab' : 'zoom-in';
+    };
+
+    zoomImg.addEventListener('pointerup', stopPan);
+    zoomImg.addEventListener('pointercancel', stopPan);
+  }
+}
+
+function openZoomLightbox(src, title) {
+  const zoomLightbox = document.getElementById('poster-zoom-lightbox');
+  const zoomImg = document.getElementById('zoom-fullscreen-img');
+  const zoomTitle = document.getElementById('zoom-poster-title');
+
+  if (!zoomLightbox || !zoomImg) return;
+
+  zoomImg.src = src;
+  zoomImg.alt = title;
+  if (zoomTitle) zoomTitle.textContent = title;
+
+  resetZoom();
+  zoomLightbox.classList.add('active');
+}
+
+function closeZoomLightbox() {
+  const zoomLightbox = document.getElementById('poster-zoom-lightbox');
+  if (!zoomLightbox) return;
+  zoomLightbox.classList.remove('active');
+  resetZoom();
+}
+
+function setZoomLevel(lvl) {
+  activeZoomLevel = Math.max(1, Math.min(4, lvl));
+  if (activeZoomLevel === 1) {
+    translateX = 0;
+    translateY = 0;
+  }
+  applyTransform();
+}
+
+function resetZoom() {
+  activeZoomLevel = 1;
+  translateX = 0;
+  translateY = 0;
+  applyTransform();
+}
+
+function applyTransform() {
+  const zoomImg = document.getElementById('zoom-fullscreen-img');
+  const zoomLevelBadge = document.getElementById('zoom-level-badge');
+  if (!zoomImg) return;
+
+  zoomImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${activeZoomLevel})`;
+  zoomImg.style.cursor = activeZoomLevel > 1 ? (isPanning ? 'grabbing' : 'grab') : 'zoom-in';
+
+  if (zoomLevelBadge) {
+    zoomLevelBadge.textContent = `${Math.round(activeZoomLevel * 100)}%`;
+  }
 }
