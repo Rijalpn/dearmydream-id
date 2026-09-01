@@ -5,6 +5,7 @@
 
 @import './tokens.css';
 @import './components.css';
+@import './preloader.css';
 
 /* --- Base & Reset --- */
 *, *::before, *::after {

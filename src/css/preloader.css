@@ -1,0 +1,178 @@
+/* ==========================================================================
+   7DREAM YOUTH CAPSULE PRELOADER STYLES
+   Soft Neo-Brutalism x 7Dream Chibi Animation
+   ========================================================================== */
+
+body.is-loading {
+  overflow: hidden !important;
+}
+
+#site-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: var(--color-bg-sage, #748C7B);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(209, 247, 55, 0.18) 0%, transparent 40%),
+    radial-gradient(#566D5D 1.2px, transparent 1.2px);
+  background-size: 100% 100%, 24px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#site-preloader.preloader-fade-out {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.preloader-card {
+  position: relative;
+  background: #FAFDF9;
+  border: 2.5px solid var(--color-ink, #16281E);
+  border-radius: 24px;
+  box-shadow: 6px 6px 0px var(--color-ink, #16281E);
+  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.25rem, 3.5vw, 2rem);
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: preloaderCardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes preloaderCardPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Washi Tape Accent */
+.preloader-washi {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 100px;
+  height: 22px;
+  background: rgba(174, 242, 156, 0.95);
+  border: 1px solid rgba(22, 40, 30, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+/* 7 Chibis Wave Parade */
+.preloader-chibis-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(4px, 1.5vw, 8px);
+  margin: 0.5rem 0 1.25rem 0;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.preloader-chibi-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: chibiWaveBounce 1.2s ease-in-out infinite alternate;
+}
+
+.preloader-chibi-item img {
+  width: clamp(38px, 9vw, 50px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(1.5px 1.5px 0px rgba(22, 40, 30, 0.35));
+  transition: transform 0.2s ease;
+}
+
+/* Staggered Delay for wave motion */
+.preloader-chibi-item:nth-child(1) { animation-delay: 0.0s; }
+.preloader-chibi-item:nth-child(2) { animation-delay: 0.15s; }
+.preloader-chibi-item:nth-child(3) { animation-delay: 0.3s; }
+.preloader-chibi-item:nth-child(4) { animation-delay: 0.45s; }
+.preloader-chibi-item:nth-child(5) { animation-delay: 0.6s; }
+.preloader-chibi-item:nth-child(6) { animation-delay: 0.75s; }
+.preloader-chibi-item:nth-child(7) { animation-delay: 0.9s; }
+
+@keyframes chibiWaveBounce {
+  0% {
+    transform: translateY(0px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-3deg);
+  }
+}
+
+/* Text & Title */
+.preloader-brand-title {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--color-ink, #16281E);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.preloader-handwritten {
+  font-family: var(--font-handwritten, 'Caveat', cursive);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-ink-muted, #365040);
+  margin-bottom: 1.25rem;
+}
+
+/* Progress Bar Container */
+.preloader-progress-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.preloader-track {
+  width: 100%;
+  height: 14px;
+  background: #E8EDE8;
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.preloader-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--color-neobong-neon, #D1F737);
+  border-right: 2px solid var(--color-ink, #16281E);
+  transition: width 0.1s linear;
+}
+
+.preloader-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink-light, #566D5D);
+}
+
+#preloader-percent {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-weight: 900;
+  color: var(--color-ink, #16281E);
+}

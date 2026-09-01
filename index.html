@@ -15,7 +15,56 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/src/css/main.css">
 </head>
-<body>
+<body class="is-loading">
+
+  <!-- 7Dream Youth Capsule Preloader -->
+  <div id="site-preloader" role="status" aria-label="Loading DearMyDream.id">
+    <div class="preloader-card">
+      <div class="preloader-washi" aria-hidden="true"></div>
+
+      <!-- 7 Chibi Animated Wave Parade -->
+      <div class="preloader-chibis-wrap" aria-hidden="true">
+        <div class="preloader-chibi-item" title="Mark">
+          <img src="/chibi/mark.png" alt="Mark">
+        </div>
+        <div class="preloader-chibi-item" title="Renjun">
+          <img src="/chibi/renjun.png" alt="Renjun">
+        </div>
+        <div class="preloader-chibi-item" title="Jeno">
+          <img src="/chibi/jeno.png" alt="Jeno">
+        </div>
+        <div class="preloader-chibi-item" title="Haechan">
+          <img src="/chibi/haechan.png" alt="Haechan">
+        </div>
+        <div class="preloader-chibi-item" title="Jaemin">
+          <img src="/chibi/jaemin.png" alt="Jaemin">
+        </div>
+        <div class="preloader-chibi-item" title="Chenle">
+          <img src="/chibi/chenle.png" alt="Chenle">
+        </div>
+        <div class="preloader-chibi-item" title="Jisung">
+          <img src="/chibi/jisung.png" alt="Jisung">
+        </div>
+      </div>
+
+      <div class="preloader-brand-title">
+        DearMyDream<span style="color: var(--color-ink-light, #566D5D);">.id</span>
+      </div>
+      <div class="preloader-handwritten">
+        My Dream is My Youth ✨
+      </div>
+
+      <div class="preloader-progress-wrap">
+        <div class="preloader-track">
+          <div id="preloader-progress-fill" class="preloader-fill"></div>
+        </div>
+        <div class="preloader-status-row">
+          <span>Memuat Ruang Kumpul...</span>
+          <span id="preloader-percent">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Top Navigation Bar -->
   <header class="site-header">
