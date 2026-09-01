@@ -1,13 +1,32 @@
 /**
  * MINI VINYL BGM PLAYER MODULE
- * YouTube Audio Embed for NCT DREAM Medley (UgVPGQMLP5s)
- * Non-intrusive floating vinyl record widget
+ * YouTube Audio Player with Playlist (UNKNOWN, BOOM, CANDY)
+ * Features: Next, Prev, Play/Pause, Mute, and Auto-Advance
  */
 
-const YOUTUBE_VIDEO_ID = 'UgVPGQMLP5s';
+const PLAYLIST = [
+  {
+    title: 'UNKNOWN',
+    artist: 'NCT DREAM',
+    videoId: 'UgVPGQMLP5s'
+  },
+  {
+    title: 'BOOM',
+    artist: 'NCT DREAM',
+    videoId: 'X-iJZ0gfKPo'
+  },
+  {
+    title: 'CANDY',
+    artist: 'NCT DREAM',
+    videoId: 'zuoSn3ObMz4'
+  }
+];
+
+let currentTrackIndex = 0;
 let ytPlayer = null;
 let isPlaying = false;
 let isMuted = false;
+let isPlayerReady = false;
 
 export function initAudioPlayer() {
   // Load YouTube IFrame API asynchronously
@@ -22,25 +41,27 @@ export function initAudioPlayer() {
     ytPlayer = new window.YT.Player('yt-bgm-embed', {
       height: '1',
       width: '1',
-      videoId: YOUTUBE_VIDEO_ID,
+      videoId: PLAYLIST[currentTrackIndex].videoId,
       playerVars: {
         autoplay: 0,
         controls: 0,
-        loop: 1,
-        playlist: YOUTUBE_VIDEO_ID,
         playsinline: 1,
         enablejsapi: 1,
         origin: window.location.origin
       },
       events: {
         onReady: () => {
-          console.log('🎵 BGM Player Ready!');
+          isPlayerReady = true;
+          console.log('🎵 7Dream BGM Player Ready!');
         },
         onStateChange: (event) => {
           if (event.data === window.YT.PlayerState.PLAYING) {
             setPlayState(true);
-          } else if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.ENDED) {
+          } else if (event.data === window.YT.PlayerState.PAUSED) {
             setPlayState(false);
+          } else if (event.data === window.YT.PlayerState.ENDED) {
+            // Auto advance to next song
+            nextTrack(true);
           }
         }
       }
@@ -48,12 +69,15 @@ export function initAudioPlayer() {
   };
 
   bindPlayerControls();
+  updateTrackDisplay();
 }
 
 function bindPlayerControls() {
   const triggerBtn = document.getElementById('vinyl-widget-trigger');
   const cardPanel = document.getElementById('vinyl-player-card');
   const playBtn = document.getElementById('vinyl-play-toggle');
+  const prevBtn = document.getElementById('vinyl-prev-btn');
+  const nextBtn = document.getElementById('vinyl-next-btn');
   const cardCloseBtn = document.getElementById('vinyl-card-close');
   const muteBtn = document.getElementById('vinyl-mute-toggle');
 
@@ -84,14 +108,21 @@ function bindPlayerControls() {
     playBtn.addEventListener('click', togglePlayback);
   }
 
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => prevTrack(isPlaying));
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => nextTrack(isPlaying));
+  }
+
   if (muteBtn) {
     muteBtn.addEventListener('click', toggleMute);
   }
 }
 
 export function togglePlayback() {
-  if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') {
-    // If API not yet ready or blocked, toggle UI state gracefully
+  if (!isPlayerReady || !ytPlayer || typeof ytPlayer.getPlayerState !== 'function') {
     setPlayState(!isPlaying);
     return;
   }
@@ -105,8 +136,43 @@ export function togglePlayback() {
   }
 }
 
+export function nextTrack(autoPlay = true) {
+  currentTrackIndex = (currentTrackIndex + 1) % PLAYLIST.length;
+  loadActiveTrack(autoPlay);
+}
+
+export function prevTrack(autoPlay = true) {
+  currentTrackIndex = (currentTrackIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
+  loadActiveTrack(autoPlay);
+}
+
+function loadActiveTrack(autoPlay = true) {
+  updateTrackDisplay();
+  const track = PLAYLIST[currentTrackIndex];
+
+  if (isPlayerReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+    if (autoPlay) {
+      ytPlayer.loadVideoById(track.videoId);
+      setPlayState(true);
+    } else {
+      ytPlayer.cueVideoById(track.videoId);
+    }
+  }
+}
+
+function updateTrackDisplay() {
+  const track = PLAYLIST[currentTrackIndex];
+  const titleEl = document.getElementById('vinyl-track-title');
+  const artistEl = document.getElementById('vinyl-track-artist');
+  const tagEl = document.getElementById('vinyl-track-counter');
+
+  if (titleEl) titleEl.textContent = track.title;
+  if (artistEl) artistEl.textContent = track.artist;
+  if (tagEl) tagEl.textContent = `🎵 ${currentTrackIndex + 1}/${PLAYLIST.length}`;
+}
+
 function toggleMute() {
-  if (!ytPlayer || typeof ytPlayer.isMuted !== 'function') return;
+  if (!isPlayerReady || !ytPlayer || typeof ytPlayer.isMuted !== 'function') return;
   const muteBtn = document.getElementById('vinyl-mute-toggle');
 
   if (ytPlayer.isMuted()) {
@@ -144,7 +210,7 @@ function setPlayState(playing) {
 
   if (playBtn) {
     playBtn.innerHTML = playing 
-      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg><span>Pause</span>`
-      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span>`;
+      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg><span>Pause</span>`
+      : `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span>`;
   }
 }
