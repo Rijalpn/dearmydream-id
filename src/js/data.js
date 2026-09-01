@@ -27,22 +27,22 @@ export const eventsArchive = [
     details: {
       location: "Cornerstone Classroom, Paskal Hyper Square, Bandung",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cornerstone+Classroom+Paskal+Hyper+Square+Bandung",
-      dresscode: "Daster / Piyama (Paling nyaman & santai)",
+      dresscode: "Daster / Piyama (Santai & Nyaman)",
       activities: [
-        "NCT Dream 10th Anniversary Sweet Dream Hotel Party",
-        "Noraebang Sing-Along lagu hits NCT DREAM & Mark",
-        "Bobbliss Custom 4-Cut Photobooth (Fast Track Slot)",
-        "MJ Market GO Official K-Pop Merch Booth",
-        "Lunch Package (Nasi Ayam BBQ / Ayam Suwir)",
+        "Pajama Party & 10th Dreamversary Celebration",
+        "Noraebang Sing-Along Lagu Hits NCT DREAM",
+        "Bobbliss Custom 4-Cut Photobooth Slot",
+        "MJ Market GO Official Merch Corner",
+        "Paket Makan Siang BBQ / Ayam Suwir",
         "Games Trivia & Doorprize Neobong"
       ],
       freebies: [
-        "Bantalan Duduk Custom 35x35 cm",
-        "Special Edition Bag Charm",
-        "Sticker ID Foto Member (Random)",
-        "Photocard Unofficial Edisi Khusus"
+        "Bantal Duduk Custom",
+        "Special Bag Charm",
+        "Sticker ID Member",
+        "Photocard Edisi Khusus"
       ],
-      sponsors: ["@Axellagift", "@mjmarketofficial / @khildaawl2", "@segigit.joy"],
+      sponsors: ["@Axellagift", "@mjmarketofficial", "@segigit.joy"],
       mediaPartners: [
         "@marklee_archives", "@jaeminpage_1308", "@Jaeminieya",
         "@hrenjun2300_", "@Jenohottes_", "@Haechaniee.06",
@@ -72,19 +72,21 @@ export const eventsArchive = [
     details: {
       location: "Kolato Cijagra, Kota Bandung",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kolato+Cijagra+Kota+Bandung",
-      dresscode: "Casual Chic / Touch of Neo Lime & Earth Tone",
+      dresscode: "Casual Chic / Touch of Neo Lime",
       activities: [
-        "Nobar (Nonton Bareng) Dokumenter & Konser Mark Lee",
-        "Sing A Long Party Lagu-Lagu Solo Mark & NCT DREAM",
-        "1 Sentence for Mark Lee Video Tribute",
+        "Nobar Dokumenter & Konser Mark Lee",
+        "Sing A Long Party Lagu Solo & Dream",
+        "1 Sentence Video Tribute for Mark",
         "Doorprize Official NCT DREAM Merch"
       ],
       freebies: [
-        "Exclusive Freebies Fan Kit (Photocard, Cup Sleeve, Sticker)",
-        "Meal & Drink Included",
-        "Doorprize Ticket Entry"
+        "Photocard Mark Lee",
+        "Cup Sleeve Edisi Spesial",
+        "Set Stiker Lucu",
+        "Paket Meal & Drink",
+        "Kupon Doorprize"
       ],
-      sponsors: ["@mjmarketofficial", "DearMyDream Creative Team"],
+      sponsors: ["@mjmarketofficial", "DearMyDream Team"],
       mediaPartners: [
         "@marklee_archives", "@eventbandung", "@kpopersjabar",
         "@tulinproject", "@parapegiatevent", "@noraezen", "@nctzone.idn"
@@ -100,5 +102,5 @@ export const siteConfig = {
   instagramHandle: "dear_mydream.id",
   instagramUrl: "https://www.instagram.com/dear_mydream.id/",
   whatsappGroupUrl: "https://chat.whatsapp.com/IzcYyRyf8Xt1TnNPyk9Dao?s=cl&p=a&mlu=2",
-  collaborationContactUrl: "https://wa.me/6281234567890?text=Halo%20Admin%20DearMyDream%2C%20saya%20tertarik%20untuk%20kolaborasi%20%2F%20sponsorship%20event."
+  collaborationWaUrl: "https://wa.me/6281234567890?text=Halo%20Admin%20DearMyDream%2C%20saya%20tertarik%20untuk%20kolaborasi%20%2F%20sponsorship%20event."
 };

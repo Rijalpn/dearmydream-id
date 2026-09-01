@@ -96,7 +96,10 @@
   font-weight: 700;
   border: var(--border-thin);
   box-shadow: 2px 2px 0px var(--color-ink);
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  word-break: break-word;
+  line-height: 1.25;
 }
 
 .badge-live {
