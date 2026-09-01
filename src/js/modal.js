@@ -94,15 +94,7 @@ export function openModal(eventData) {
     <!-- Click to Zoom Poster Container -->
     <div class="modal-gallery-preview" role="button" tabindex="0" title="Klik / Tap untuk Zoom HD & Fullscreen" id="modal-poster-preview">
       <img id="modal-active-img" src="${eventData.coverImage}" alt="${eventData.title}">
-      <div class="poster-zoom-hint">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          <line x1="11" y1="8" x2="11" y2="14"></line>
-          <line x1="8" y1="11" x2="14" y2="11"></line>
-        </svg>
-        <span>Ketuk untuk Zoom Poster HD 🔍</span>
-      </div>
+      <div class="poster-zoom-hint" title="Zoom Poster HD">🔍</div>
     </div>
 
     <!-- Thumbnail Picker if multiple photos -->
@@ -157,6 +149,13 @@ export function openModal(eventData) {
         ${mediaPartnersHtml}
       </div>
     </div>
+
+    <!-- Convenient Bottom Close Button for Mobile -->
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <button class="btn btn-secondary-neo" onclick="document.getElementById('modal-close-btn').click();" style="width: 100%; justify-content: center; padding: 0.8rem 1rem;">
+        <span>✕ Tutup Detail Event</span>
+      </button>
+    </div>
   `;
 
   // Bind click to open Zoom Lightbox
@@ -169,14 +168,15 @@ export function openModal(eventData) {
   }
 
   backdrop.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  backdrop.scrollTop = 0;
+  document.body.classList.add('modal-open');
 }
 
 export function closeModal() {
   const backdrop = document.getElementById('memory-modal');
   if (!backdrop) return;
   backdrop.classList.remove('active');
-  document.body.style.overflow = '';
+  document.body.classList.remove('modal-open');
 }
 
 /* ==========================================================================
