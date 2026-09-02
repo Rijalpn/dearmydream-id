@@ -7,7 +7,8 @@ import { initModal } from './modal.js';
 import { initPreloader } from './preloader.js';
 import { initSparkles } from './sparkles.js';
 import { initAudioPlayer } from './player.js';
-import { initGuestbook } from './guestbook.js';
+import { initGuestbook, refreshGuestbookView } from './guestbook.js';
+import { initAdmin } from './admin.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🌿 DearMyDream.id Loaded Successfully!');
@@ -26,4 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Scrapbook Youth Memory Wall (Kesan & Pesan)
   initGuestbook();
+
+  // Initialize Admin Moderation (/admin or #admin)
+  initAdmin((_isAdminActive) => {
+    refreshGuestbookView();
+  });
 });

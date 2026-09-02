@@ -283,6 +283,81 @@
   animation: heartBeat 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Admin Note Delete Button */
+.btn-note-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #FEE2E2;
+  border: 1.2px solid #DC2626;
+  border-radius: var(--radius-full);
+  padding: 0.15rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #DC2626;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn-note-delete:hover {
+  background: #EF4444;
+  color: #FFFFFF;
+  transform: scale(1.05);
+}
+
+/* Floating Admin Status Bar */
+.admin-floating-bar {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-ink);
+  color: #FFFFFF;
+  border: 2px solid var(--color-neobong-neon);
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  padding: 0.55rem 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1100;
+  font-size: 0.84rem;
+  animation: modalPopUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-bar-content {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.admin-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-neobong-neon);
+  box-shadow: 0 0 8px var(--color-neobong-neon);
+  animation: pulse 1.5s infinite;
+}
+
+.btn-admin-logout {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-admin-logout:hover {
+  background: #EF4444;
+  border-color: #EF4444;
+}
+
 /* --- Clean Pagination Controls --- */
 .guestbook-pagination {
   display: flex;

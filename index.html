@@ -391,7 +391,7 @@
 
       <div class="footer-bottom">
         <div class="footer-bottom-flex">
-          <span>© 2026 DearMyDream.id • Bandung Chapter</span>
+          <span>© 2026 DearMyDream.id • Bandung Chapter <button id="footer-admin-trigger" style="background: none; border: none; cursor: pointer; opacity: 0.35; font-size: 0.8rem; margin-left: 6px;" title="Admin Moderasi" aria-label="Admin Login">🔒</button></span>
           <span class="footer-love-tag">Made with 💚 by Fans for Fans</span>
         </div>
       </div>
@@ -510,6 +510,31 @@
         <!-- Submit Button -->
         <button type="submit" class="btn-guestbook-submit">
           <span>🚀 Kirim Kesan & Pesan ✨</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin PIN Authentication Modal (/admin) -->
+  <div id="admin-modal" class="guestbook-modal-backdrop" role="dialog" aria-modal="true" aria-label="Admin Login">
+    <div class="guestbook-modal-card" style="max-width: 360px;">
+      <div class="note-washi washi-pink" aria-hidden="true"></div>
+
+      <div class="guestbook-modal-header">
+        <h3 class="guestbook-modal-title">🔐 Admin DearMyDream</h3>
+        <button id="admin-modal-close" class="guestbook-modal-close-btn" aria-label="Tutup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="admin-login-form">
+        <div class="guestbook-form-group">
+          <label for="admin-pin-input" class="guestbook-label">Masukkan PIN Admin</label>
+          <input type="password" id="admin-pin-input" class="guestbook-input" placeholder="PIN 6-digit (Default: 127000)" required maxlength="20">
+        </div>
+
+        <button type="submit" class="btn-guestbook-submit" style="background: #F87171; color: #FFFFFF; border-color: #991B1B; box-shadow: 3px 3px 0px #991B1B;">
+          <span>Masuk Mode Admin 👑</span>
         </button>
       </form>
     </div>

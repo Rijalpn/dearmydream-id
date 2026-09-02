@@ -1,15 +1,34 @@
 /**
- * GUESTBOOK / DREAM NOTES MODULE
- * Max 3 Cards Stacked Vertically with Clean Button-Driven Pagination
+ * GUESTBOOK / DREAM NOTES MODULE WITH FIREBASE FIRESTORE REALTIME SYNC
+ * Project: dearmydream-id-2026
+ * Supports live multi-device sync, likes, and Admin PIN deletion (/admin)
  */
 
-const STORAGE_KEY = 'dearmydream_guestbook_notes_v4';
-const LIKES_KEY = 'dearmydream_guestbook_likes_v4';
+import { 
+  db, 
+  collection, 
+  addDoc, 
+  onSnapshot, 
+  query, 
+  orderBy, 
+  deleteDoc, 
+  doc, 
+  updateDoc, 
+  increment,
+  serverTimestamp 
+} from './firebase-config.js';
+
+import { isAdmin } from './admin.js';
+
+const LOCAL_STORAGE_KEY = 'dearmydream_guestbook_local_cache';
+const LIKES_KEY = 'dearmydream_guestbook_liked_ids';
 const PAGE_SIZE = 3;
 
 const WASHI_OPTIONS = ['', 'washi-yellow', 'washi-orange', 'washi-pink', 'washi-blue'];
 
+let currentNotes = [];
 let currentPage = 1;
+let unsubscribeFirestore = null;
 
 export function initGuestbook() {
   const feedContainer = document.getElementById('guestbook-feed');
@@ -20,10 +39,13 @@ export function initGuestbook() {
 
   if (!feedContainer) return;
 
-  // Render stored notes (starts empty if none)
-  const notes = getStoredNotes();
-  renderNotes(notes);
-  updateCounter(notes.length);
+  // Load initial local cache while waiting for Firestore
+  currentNotes = getLocalCache();
+  renderNotes(currentNotes);
+  updateCounter(currentNotes.length);
+
+  // Connect to Firestore Realtime
+  connectFirestore();
 
   // Setup modal open
   if (triggerBtn && modalBackdrop) {
@@ -43,9 +65,7 @@ export function initGuestbook() {
 
   if (modalBackdrop) {
     modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) {
-        closeGuestbookModal();
-      }
+      if (e.target === modalBackdrop) closeGuestbookModal();
     });
 
     window.addEventListener('keydown', (e) => {
@@ -61,27 +81,62 @@ export function initGuestbook() {
   }
 }
 
-function getStoredNotes() {
+export function refreshGuestbookView() {
+  renderNotes(currentNotes);
+}
+
+function connectFirestore() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const notesRef = collection(db, 'guestbook');
+    const q = query(notesRef, orderBy('createdAt', 'desc'));
+
+    unsubscribeFirestore = onSnapshot(q, (snapshot) => {
+      const fetchedNotes = [];
+      snapshot.forEach((docSnapshot) => {
+        const data = docSnapshot.data();
+        fetchedNotes.push({
+          id: docSnapshot.id,
+          author: data.author || 'Anonim',
+          message: data.message || '',
+          likes: typeof data.likes === 'number' ? data.likes : 0,
+          washiClass: data.washiClass || '',
+          timeAgo: formatTimestamp(data.createdAt),
+          createdAtMs: data.createdAt ? data.createdAt.toMillis() : Date.now()
+        });
+      });
+
+      currentNotes = fetchedNotes;
+      saveLocalCache(currentNotes);
+      renderNotes(currentNotes);
+      updateCounter(currentNotes.length);
+    }, (error) => {
+      console.warn('Firestore realtime notice (using local cache mode):', error.message);
+      // Seamlessly keep running on local cache
+      currentNotes = getLocalCache();
+      renderNotes(currentNotes);
+      updateCounter(currentNotes.length);
+    });
+  } catch (err) {
+    console.warn('Firestore init fallback to local cache:', err);
+  }
+}
+
+function getLocalCache() {
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
   } catch (e) {
-    console.error('Error reading guestbook notes:', e);
     return [];
   }
 }
 
-function saveStoredNotes(notes) {
+function saveLocalCache(notes) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
-  } catch (e) {
-    console.error('Error saving guestbook notes:', e);
-  }
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notes));
+  } catch (e) {}
 }
 
-function getLikedNotes() {
+function getLikedMap() {
   try {
     const raw = localStorage.getItem(LIKES_KEY);
     return raw ? JSON.parse(raw) : {};
@@ -90,12 +145,10 @@ function getLikedNotes() {
   }
 }
 
-function saveLikedNotes(likedMap) {
+function saveLikedMap(likedMap) {
   try {
     localStorage.setItem(LIKES_KEY, JSON.stringify(likedMap));
-  } catch (e) {
-    console.error('Error saving liked notes:', e);
-  }
+  } catch (e) {}
 }
 
 function renderNotes(notes) {
@@ -113,16 +166,17 @@ function renderNotes(notes) {
     return;
   }
 
-  const totalPages = Math.ceil(notes.length / PAGE_SIZE);
+  const totalPages = Math.ceil(notes.length / PAGE_SIZE) || 1;
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const visibleNotes = notes.slice(startIndex, startIndex + PAGE_SIZE);
-  const likedMap = getLikedNotes();
+  const likedMap = getLikedMap();
+  const adminActive = isAdmin();
 
   const cardsHtml = visibleNotes.map(note => {
-    const isLiked = !likedMap[note.id];
+    const isLiked = !!likedMap[note.id];
 
     return `
       <article class="memo-note-card" id="note-card-${note.id}">
@@ -143,7 +197,18 @@ function renderNotes(notes) {
         </div>
 
         <div class="note-footer-row">
-          <span class="note-stamp-tag">💌 Dream Note</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="note-stamp-tag">💌 Dream Note</span>
+            ${adminActive ? `
+              <button type="button" class="btn-note-delete" data-note-id="${note.id}" data-author="${escapeHtml(note.author)}" title="Hapus pesan ini (Admin)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span>Hapus</span>
+              </button>
+            ` : ''}
+          </div>
           
           <button type="button" class="btn-note-like ${isLiked ? 'liked' : ''}" 
                   data-note-id="${note.id}" 
@@ -186,6 +251,16 @@ function renderNotes(notes) {
     });
   });
 
+  // Attach Admin delete listeners
+  feed.querySelectorAll('.btn-note-delete').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const noteId = btn.getAttribute('data-note-id');
+      const author = btn.getAttribute('data-author');
+      handleDeleteClick(noteId, author);
+    });
+  });
+
   // Attach pagination listeners
   const prevPageBtn = document.getElementById('gb-prev-page');
   const nextPageBtn = document.getElementById('gb-next-page');
@@ -194,7 +269,7 @@ function renderNotes(notes) {
     prevPageBtn.addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
-        renderNotes(getStoredNotes());
+        renderNotes(currentNotes);
       }
     });
   }
@@ -203,37 +278,73 @@ function renderNotes(notes) {
     nextPageBtn.addEventListener('click', () => {
       if (currentPage < totalPages) {
         currentPage++;
-        renderNotes(getStoredNotes());
+        renderNotes(currentNotes);
       }
     });
   }
 }
 
-function handleLikeClick(noteId, btnElement) {
-  const notes = getStoredNotes();
-  const likedMap = getLikedNotes();
-  const targetNote = notes.find(n => n.id === noteId);
+async function handleLikeClick(noteId, btnElement) {
+  const likedMap = getLikedMap();
+  const isAlreadyLiked = !!likedMap[noteId];
 
-  if (!targetNote) return;
-
-  if (likedMap[noteId]) {
+  if (isAlreadyLiked) {
+    // Unlike locally
     delete likedMap[noteId];
-    targetNote.likes = Math.max(0, (targetNote.likes || 1) - 1);
+    saveLikedMap(likedMap);
     btnElement.classList.remove('liked');
+    
+    // Decrement in Firestore
+    try {
+      const noteRef = doc(db, 'guestbook', noteId);
+      await updateDoc(noteRef, { likes: increment(-1) });
+    } catch (e) {
+      // Local fallback
+      const target = currentNotes.find(n => n.id === noteId);
+      if (target) {
+        target.likes = Math.max(0, (target.likes || 1) - 1);
+        saveLocalCache(currentNotes);
+        renderNotes(currentNotes);
+      }
+    }
   } else {
+    // Like
     likedMap[noteId] = true;
-    targetNote.likes = (targetNote.likes || 0) + 1;
+    saveLikedMap(likedMap);
     btnElement.classList.add('liked');
-
     createHeartSparkle(btnElement);
+
+    // Increment in Firestore
+    try {
+      const noteRef = doc(db, 'guestbook', noteId);
+      await updateDoc(noteRef, { likes: increment(1) });
+    } catch (e) {
+      // Local fallback
+      const target = currentNotes.find(n => n.id === noteId);
+      if (target) {
+        target.likes = (target.likes || 0) + 1;
+        saveLocalCache(currentNotes);
+        renderNotes(currentNotes);
+      }
+    }
   }
+}
 
-  saveLikedNotes(likedMap);
-  saveStoredNotes(notes);
+async function handleDeleteClick(noteId, author) {
+  const confirmed = confirm(`Hapus pesan dari "${author}" secara permanen?`);
+  if (!confirmed) return;
 
-  const countSpan = btnElement.querySelector('.like-count');
-  if (countSpan) {
-    countSpan.textContent = targetNote.likes;
+  try {
+    // Delete from Firestore
+    await deleteDoc(doc(db, 'guestbook', noteId));
+    showToast('Pesan berhasil dihapus dari cloud! 🗑️✨');
+  } catch (e) {
+    console.warn('Firestore delete error, removing from local cache:', e);
+    currentNotes = currentNotes.filter(n => n.id !== noteId);
+    saveLocalCache(currentNotes);
+    renderNotes(currentNotes);
+    updateCounter(currentNotes.length);
+    showToast('Pesan berhasil dihapus! 🗑️');
   }
 }
 
@@ -261,7 +372,7 @@ function createHeartSparkle(element) {
   setTimeout(() => heart.remove(), 550);
 }
 
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
   e.preventDefault();
 
   const authorInput = document.getElementById('guestbook-name-input');
@@ -277,27 +388,40 @@ function handleFormSubmit(e) {
 
   const randomWashi = WASHI_OPTIONS[Math.floor(Math.random() * WASHI_OPTIONS.length)];
 
-  const newNote = {
-    id: `note-${Date.now()}`,
+  const newDoc = {
     author: author,
     message: message,
-    timeAgo: 'Baru saja',
     likes: 1,
-    washiClass: randomWashi
+    washiClass: randomWashi,
+    createdAt: serverTimestamp()
   };
-
-  const notes = getStoredNotes();
-  notes.unshift(newNote);
-  saveStoredNotes(notes);
-
-  currentPage = 1; // Always show first page with newly created note
-  renderNotes(notes);
-  updateCounter(notes.length);
 
   closeGuestbookModal();
   e.target.reset();
 
-  showToast('Dream Note berhasil dikirim! 💚✨');
+  try {
+    // Send to Firestore
+    await addDoc(collection(db, 'guestbook'), newDoc);
+    showToast('Dream Note berhasil terkirim ke publik! 💚✨');
+  } catch (err) {
+    console.warn('Firestore addDoc error, saving locally:', err);
+    // Local fallback
+    const localNote = {
+      id: `local-${Date.now()}`,
+      author: author,
+      message: message,
+      likes: 1,
+      washiClass: randomWashi,
+      timeAgo: 'Baru saja',
+      createdAtMs: Date.now()
+    };
+    currentNotes.unshift(localNote);
+    saveLocalCache(currentNotes);
+    currentPage = 1;
+    renderNotes(currentNotes);
+    updateCounter(currentNotes.length);
+    showToast('Dream Note berhasil ditempel! 💚✨');
+  }
 }
 
 function openGuestbookModal() {
@@ -322,6 +446,22 @@ function updateCounter(count) {
   const counterElem = document.getElementById('guestbook-total-counter');
   if (counterElem) {
     counterElem.textContent = count > 0 ? `✨ ${count} Dream Note Terkumpul` : '✨ Ruang Dream Note';
+  }
+}
+
+function formatTimestamp(timestamp) {
+  if (!timestamp) return 'Baru saja';
+  try {
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const diffSec = Math.floor((now - date) / 1000);
+
+    if (diffSec < 60) return 'Baru saja';
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)} menit lalu`;
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)} jam lalu`;
+    return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+  } catch (e) {
+    return 'Baru saja';
   }
 }
 
