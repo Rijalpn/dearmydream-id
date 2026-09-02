@@ -1,10 +1,10 @@
 /* ==========================================================================
-   GUESTBOOK / YOUTH MEMORY WALL STYLING
-   Scrapbook Sticky Notes, Interactive Modal, and Micro-interactions
+   GUESTBOOK / KESAN & PESAN CLEAN STYLING
+   Lightweight, Simple Modal, and Responsive Cards
    ========================================================================== */
 
 .guestbook-section {
-  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+  padding: clamp(3rem, 5vw, 4.5rem) 0;
   position: relative;
   background: var(--color-bg-canvas);
   border-top: 2px dashed rgba(22, 40, 30, 0.15);
@@ -12,15 +12,15 @@
 
 .guestbook-header-box {
   text-align: center;
-  max-width: 680px;
-  margin: 0 auto clamp(2rem, 4vw, 3rem) auto;
+  max-width: 620px;
+  margin: 0 auto clamp(1.75rem, 3.5vw, 2.5rem) auto;
 }
 
 .guestbook-stats-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 0.9rem;
+  padding: 0.35rem 0.85rem;
   background: var(--color-bg-card);
   border: var(--border-thin);
   border-radius: var(--radius-full);
@@ -28,43 +28,42 @@
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-ink);
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
 }
 
 .guestbook-title {
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
   font-weight: 900;
   color: var(--color-ink);
   line-height: 1.15;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
   letter-spacing: -0.02em;
 }
 
 .guestbook-subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-size: clamp(0.92rem, 1.8vw, 1.02rem);
   color: var(--color-ink-muted);
-  line-height: 1.6;
-  margin-bottom: 1.75rem;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
 }
 
 .guestbook-cta-wrap {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .btn-guestbook-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.6rem;
   background: var(--color-neobong-neon);
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 800;
-  padding: 0.9rem 1.85rem;
+  padding: 0.85rem 1.75rem;
   border-radius: var(--radius-full);
   border: var(--border-med);
   box-shadow: var(--shadow-neo);
@@ -84,12 +83,41 @@
   box-shadow: 2px 2px 0px var(--color-ink);
 }
 
-/* --- Memory Wall Grid (Masonry / Responsive Grid) --- */
+/* --- Empty Guestbook Box --- */
+.empty-guestbook-box {
+  grid-column: 1 / -1;
+  background: #FFFFFF;
+  border: 2px dashed rgba(22, 40, 30, 0.25);
+  border-radius: var(--radius-lg);
+  padding: clamp(2.5rem, 5vw, 3.5rem) 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.empty-guestbook-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.empty-guestbook-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  margin-bottom: 0.35rem;
+}
+
+.empty-guestbook-sub {
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+
+/* --- Memory Wall Grid --- */
 .memory-wall-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 1.85rem);
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(1.2rem, 2vw, 1.6rem);
+  margin-top: 1.25rem;
 }
 
 @media (max-width: 480px) {
@@ -104,53 +132,44 @@
   border: var(--border-med);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-neo);
-  padding: 1.5rem 1.35rem 1.25rem 1.35rem;
+  padding: 1.35rem 1.25rem 1.15rem 1.25rem;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-  animation: notePopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation: notePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
 .memo-note-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 6px 6px 0px var(--color-ink);
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 5px 5px 0px var(--color-ink);
 }
 
-/* Dynamic tilts for natural scrapbook feel */
 .memo-note-card[data-tilt="left"] {
-  transform: rotate(-1.2deg);
+  transform: rotate(-1deg);
 }
 .memo-note-card[data-tilt="left"]:hover {
-  transform: translateY(-5px) rotate(-0.5deg) scale(1.02);
+  transform: translateY(-4px) rotate(-0.3deg) scale(1.015);
 }
 
 .memo-note-card[data-tilt="right"] {
-  transform: rotate(1.2deg);
+  transform: rotate(1deg);
 }
 .memo-note-card[data-tilt="right"]:hover {
-  transform: translateY(-5px) rotate(0.5deg) scale(1.02);
+  transform: translateY(-4px) rotate(0.3deg) scale(1.015);
 }
 
-.memo-note-card[data-tilt="straight"] {
-  transform: rotate(0deg);
-}
-.memo-note-card[data-tilt="straight"]:hover {
-  transform: translateY(-5px) scale(1.02);
-}
-
-/* Washi tape accents */
 .note-washi {
   position: absolute;
-  top: -10px;
+  top: -9px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90px;
-  height: 22px;
+  width: 80px;
+  height: 20px;
   background: rgba(197, 232, 203, 0.85);
-  border: 1px dashed rgba(22, 40, 30, 0.35);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px dashed rgba(22, 40, 30, 0.3);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
   pointer-events: none;
   z-index: 2;
 }
@@ -160,32 +179,26 @@
 .note-washi.washi-pink   { background: rgba(251, 207, 232, 0.85); }
 .note-washi.washi-blue   { background: rgba(186, 230, 253, 0.85); }
 
-/* Note Card Author Row */
+/* Note Author Header */
 .note-author-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.85rem;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
 }
 
-.note-avatar-wrap {
-  width: 44px;
-  height: 44px;
+.note-avatar-circle {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 2px solid var(--color-ink);
-  background: var(--color-pastel-mint);
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-pastel-mint-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  font-size: 1rem;
   flex-shrink: 0;
   box-shadow: 1px 1px 0px var(--color-ink);
-}
-
-.note-avatar-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .note-author-meta {
@@ -201,54 +214,36 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.note-event-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--color-ink-light);
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 1px;
-}
-
-/* Note Message Text */
-.note-message-body {
-  font-size: 0.93rem;
-  line-height: 1.55;
-  color: var(--color-ink);
-  margin-bottom: 1rem;
-  white-space: pre-line;
-  word-break: break-word;
-}
-
-.note-handwritten-sign {
-  font-family: var(--font-handwritten);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #3B6B48;
-  margin-bottom: 0.75rem;
-  display: block;
-}
-
-/* Note Card Footer with Interactive Heart */
-.note-footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.75rem;
-  border-top: 1px dashed rgba(22, 40, 30, 0.15);
-  margin-top: auto;
 }
 
 .note-time-text {
   font-size: 0.72rem;
   color: var(--color-ink-light);
   font-weight: 600;
+}
+
+.note-message-body {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+  margin-bottom: 0.85rem;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.note-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.65rem;
+  border-top: 1px dashed rgba(22, 40, 30, 0.15);
+  margin-top: auto;
+}
+
+.note-stamp-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-ink-light);
 }
 
 .btn-note-like {
@@ -269,7 +264,7 @@
 
 .btn-note-like:hover {
   background: #FEE2E2;
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .btn-note-like.liked {
@@ -285,7 +280,10 @@
   animation: heartBeat 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- Interactive Guestbook Submission Modal --- */
+/* ==========================================================================
+   SIMPLE & CLEAN GUESTBOOK MODAL FORM
+   ========================================================================== */
+
 .guestbook-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -299,6 +297,7 @@
   padding: 1rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .guestbook-modal-backdrop.active {
@@ -311,11 +310,53 @@
   border-radius: var(--radius-lg);
   box-shadow: 8px 8px 0px var(--color-ink);
   width: 100%;
-  max-width: 520px;
+  max-width: 440px;
   position: relative;
-  padding: clamp(1.25rem, 3vw, 1.85rem);
+  padding: clamp(1.25rem, 3.5vw, 1.75rem);
   box-sizing: border-box;
-  animation: modalPopUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
+  animation: modalPopUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.guestbook-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.guestbook-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.guestbook-modal-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--color-ink);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.guestbook-modal-close-btn:hover {
+  background: #FEE2E2;
+  transform: scale(1.08);
+}
+
+.guestbook-modal-close-btn:active {
+  transform: scale(0.95);
+  box-shadow: 1px 1px 0px var(--color-ink);
 }
 
 .guestbook-form-group {
@@ -336,7 +377,7 @@
 .guestbook-input,
 .guestbook-textarea {
   width: 100%;
-  padding: 0.75rem 0.95rem;
+  padding: 0.75rem 0.9rem;
   border: var(--border-thin);
   border-radius: var(--radius-sm);
   background: #FFFFFF;
@@ -357,83 +398,10 @@
 
 .guestbook-textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 110px;
   line-height: 1.5;
 }
 
-/* Bias Avatar Picker Row */
-.bias-picker-grid {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-}
-
-.bias-picker-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  background: #FFFFFF;
-  border: 2px solid var(--color-ink);
-  border-radius: var(--radius-sm);
-  padding: 0.45rem 0.55rem;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
-  outline: none;
-}
-
-.bias-picker-btn img {
-  width: 38px;
-  height: 38px;
-  object-fit: cover;
-  border-radius: 50%;
-  background: var(--color-pastel-mint);
-}
-
-.bias-picker-btn span {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: var(--color-ink);
-}
-
-.bias-picker-btn.selected {
-  background: var(--color-neobong-neon);
-  border-color: var(--color-ink);
-  box-shadow: 2px 2px 0px var(--color-ink);
-  transform: translateY(-2px);
-}
-
-/* Event Tag Selection Chips */
-.event-tag-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.event-tag-btn {
-  background: #FFFFFF;
-  border: 1.5px solid var(--color-ink);
-  border-radius: var(--radius-full);
-  padding: 0.4rem 0.85rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--color-ink);
-  cursor: pointer;
-  transition: all 0.18s ease;
-}
-
-.event-tag-btn.selected {
-  background: var(--color-pastel-mint);
-  border-color: var(--color-ink);
-  box-shadow: 2px 2px 0px var(--color-ink);
-  font-weight: 800;
-}
-
-/* Form Submit Button */
 .btn-guestbook-submit {
   width: 100%;
   padding: 0.85rem 1.25rem;
@@ -465,7 +433,6 @@
   box-shadow: 1px 1px 0px var(--color-ink);
 }
 
-/* Toast Success Notification */
 .guestbook-toast {
   position: fixed;
   bottom: 2rem;
@@ -493,11 +460,10 @@
   opacity: 1;
 }
 
-/* Keyframes */
 @keyframes notePopIn {
   from {
     opacity: 0;
-    transform: scale(0.85) translateY(20px);
+    transform: scale(0.88) translateY(15px);
   }
   to {
     opacity: 1;
@@ -508,7 +474,7 @@
 @keyframes modalPopUp {
   from {
     opacity: 0;
-    transform: scale(0.92) translateY(15px);
+    transform: scale(0.94) translateY(15px);
   }
   to {
     opacity: 1;
@@ -518,6 +484,6 @@
 
 @keyframes heartBeat {
   0% { transform: scale(1); }
-  50% { transform: scale(1.35); }
+  50% { transform: scale(1.3); }
   100% { transform: scale(1); }
 }

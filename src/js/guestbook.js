@@ -1,109 +1,13 @@
 /**
- * GUESTBOOK & YOUTH MEMORY WALL MODULE
- * Handles scrapbook fan messages, bias avatar picker, likes, and localStorage persistence
+ * GUESTBOOK / KESAN & PESAN MODULE
+ * Lightweight, clean, responsive interactive message board with localStorage & likes
  */
 
-const STORAGE_KEY = 'dearmydream_guestbook_notes';
-const LIKES_KEY = 'dearmydream_guestbook_likes';
-
-// Authentic default starter memories
-const DEFAULT_NOTES = [
-  {
-    id: 'note-1',
-    author: 'Caca MarkF',
-    handle: '@markf_bandung',
-    bias: 'mark',
-    eventTag: '🐯 Dear Mark 2026',
-    message: 'Noraebang party Dear Mark seru banget astaga! Pertama kali ikut gathering K-Pop sendirian tapi pas nyampe langsung dapet temen baru semeja. Freebiesnya lucu-lucu bgt kiyowo 🐯💚',
-    handwritten: 'Always with Mark Lee ✨',
-    timeAgo: 'Baru saja',
-    likes: 24,
-    washiClass: 'washi-orange',
-    tilt: 'left'
-  },
-  {
-    id: 'note-2',
-    author: 'Nabila Dreamzen',
-    handle: '@nabiladreamies',
-    bias: 'jaemin',
-    eventTag: '🌙 Pajama Party',
-    message: 'Gasabar banget nunggu Pajama Party 23 Agustus nanti di Cornerstone Paskal! Udah siapin piyama matching sama bestie. Sukses terus buat DearMyDream EO kpop terbaik di Bdg! 🐰✨',
-    handwritten: '7Dream Forever Youth 💚',
-    timeAgo: '1 jam lalu',
-    likes: 19,
-    washiClass: '',
-    tilt: 'right'
-  },
-  {
-    id: 'note-3',
-    author: 'Alya Czennie',
-    handle: '@alya.nctzen',
-    bias: 'jeno',
-    eventTag: '✨ Kesan Komunitas',
-    message: 'Event Organizer yang bener-bener ramah dan rapi banget! Dari dekorasi, rundown, sampe photobooth Bobbliss semuanya niat parah. My Dream is My Youth beneran berasa 🐶💚',
-    handwritten: 'Bandung Czennie Pride 🌟',
-    timeAgo: '3 jam lalu',
-    likes: 31,
-    washiClass: 'washi-yellow',
-    tilt: 'straight'
-  },
-  {
-    id: 'note-4',
-    author: 'Dinda',
-    handle: '@dinda_haechan',
-    bias: 'haechan',
-    eventTag: '🐯 Dear Mark 2026',
-    message: 'Nonton bareng dokumenter Mark kemarin beneran bikin nangis terharu se-ruangan. Makasih DearMyDream udah nyediain ruang kumpul sehangat ini di Bandung! 🐻✨',
-    handwritten: 'Huck & Mark Best Duo 💚',
-    timeAgo: '5 jam lalu',
-    likes: 15,
-    washiClass: 'washi-pink',
-    tilt: 'left'
-  },
-  {
-    id: 'note-5',
-    author: 'Sasa Injun',
-    handle: '@renjun_archives_bdg',
-    bias: 'renjun',
-    eventTag: '🌙 Pajama Party',
-    message: 'Vibe komunitasnya asyik banget, panitianya gercep dan welcome ke peserta baru. Wajib banget dateng pas 10th Dreamversary nanti gaes! 🦊🍵',
-    handwritten: 'Huang Renjun Kiyowo 💛',
-    timeAgo: 'Kemarin',
-    likes: 28,
-    washiClass: 'washi-blue',
-    tilt: 'right'
-  },
-  {
-    id: 'note-6',
-    author: 'Rifki Jisung',
-    handle: '@jisung_maknae',
-    bias: 'jisung',
-    eventTag: '✨ Harapan 7Dream',
-    message: 'Keren banget EO spesialis NCT Dream & Mark di Bandung. Semoga makin sering bikin nobar konser dan gathering seru lainnya ya min! 🐹💚',
-    handwritten: 'Maknae on Top! 🚀',
-    timeAgo: '2 hari lalu',
-    likes: 22,
-    washiClass: '',
-    tilt: 'straight'
-  }
-];
-
-const BIAS_ICONS = {
-  mark: { name: 'Mark', icon: '/chibi/mark.png', emoji: '🐯' },
-  renjun: { name: 'Renjun', icon: '/chibi/renjun.png', emoji: '🦊' },
-  jeno: { name: 'Jeno', icon: '/chibi/jeno.png', emoji: '🐶' },
-  haechan: { name: 'Haechan', icon: '/chibi/haechan.png', emoji: '🐻' },
-  jaemin: { name: 'Jaemin', icon: '/chibi/jaemin.png', emoji: '🐰' },
-  chenle: { name: 'Chenle', icon: '/chibi/chenle.png', emoji: '🐬' },
-  jisung: { name: 'Jisung', icon: '/chibi/jisung.png', emoji: '🐹' },
-  dream: { name: '7Dream', icon: '/chibi/mark.png', emoji: '💚' }
-};
+const STORAGE_KEY = 'dearmydream_guestbook_notes_v2';
+const LIKES_KEY = 'dearmydream_guestbook_likes_v2';
 
 const WASHI_OPTIONS = ['', 'washi-yellow', 'washi-orange', 'washi-pink', 'washi-blue'];
 const TILT_OPTIONS = ['left', 'right', 'straight'];
-
-let selectedBias = 'mark';
-let selectedEventTag = '🌙 Pajama Party';
 
 export function initGuestbook() {
   const gridContainer = document.getElementById('guestbook-grid');
@@ -114,7 +18,7 @@ export function initGuestbook() {
 
   if (!gridContainer) return;
 
-  // Load and render notes
+  // Render stored notes (starts empty if none)
   const notes = getStoredNotes();
   renderNotes(notes);
   updateCounter(notes.length);
@@ -129,7 +33,10 @@ export function initGuestbook() {
 
   // Setup modal close
   if (closeModalBtn && modalBackdrop) {
-    closeModalBtn.addEventListener('click', closeGuestbookModal);
+    closeModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeGuestbookModal();
+    });
   }
 
   if (modalBackdrop) {
@@ -146,12 +53,6 @@ export function initGuestbook() {
     });
   }
 
-  // Setup Bias Selector Chips
-  setupBiasSelector();
-
-  // Setup Event Tag Chips
-  setupEventTagSelector();
-
   // Setup Form Submission
   if (form) {
     form.addEventListener('submit', handleFormSubmit);
@@ -161,15 +62,12 @@ export function initGuestbook() {
 function getStoredNotes() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_NOTES));
-      return DEFAULT_NOTES;
-    }
+    if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_NOTES;
+    return Array.isArray(parsed) ? parsed : [];
   } catch (e) {
     console.error('Error reading guestbook notes:', e);
-    return DEFAULT_NOTES;
+    return [];
   }
 }
 
@@ -202,12 +100,21 @@ function renderNotes(notes) {
   const grid = document.getElementById('guestbook-grid');
   if (!grid) return;
 
+  if (notes.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-guestbook-box">
+        <div class="empty-guestbook-icon">💌</div>
+        <div class="empty-guestbook-title">Belum ada kesan & pesan yang ditulis</div>
+        <div class="empty-guestbook-sub">Jadilah yang pertama menuliskan cerita manismu di sini! ✨</div>
+      </div>
+    `;
+    return;
+  }
+
   const likedMap = getLikedNotes();
 
   grid.innerHTML = notes.map(note => {
-    const biasInfo = BIAS_ICONS[note.bias] || BIAS_ICONS.mark;
     const isLiked = !!likedMap[note.id];
-    const avatarSrc = biasInfo.icon;
 
     return `
       <article class="memo-note-card" data-tilt="${note.tilt || 'straight'}" id="note-card-${note.id}">
@@ -215,29 +122,20 @@ function renderNotes(notes) {
 
         <div>
           <div class="note-author-row">
-            <div class="note-avatar-wrap" title="Bias: ${biasInfo.name}">
-              <img src="${avatarSrc}" alt="${biasInfo.name}" loading="lazy">
+            <div class="note-avatar-circle">
+              <span>✍️</span>
             </div>
             <div class="note-author-meta">
-              <div class="note-author-name">
-                <span>${escapeHtml(note.author)}</span>
-                <span style="font-size: 0.8rem;">${biasInfo.emoji}</span>
-              </div>
-              <div class="note-event-badge">
-                <span>${escapeHtml(note.eventTag || '✨ Youth Memory')}</span>
-              </div>
+              <div class="note-author-name">${escapeHtml(note.author)}</div>
+              <div class="note-time-text">${escapeHtml(note.timeAgo || 'Baru saja')}</div>
             </div>
           </div>
 
           <p class="note-message-body">"${escapeHtml(note.message)}"</p>
-          
-          ${note.handwritten ? `
-            <span class="note-handwritten-sign">~ ${escapeHtml(note.handwritten)} ✨</span>
-          ` : ''}
         </div>
 
         <div class="note-footer-row">
-          <span class="note-time-text">${escapeHtml(note.timeAgo || 'Baru saja')}</span>
+          <span class="note-stamp-tag">💚 Pesan Teman</span>
           
           <button type="button" class="btn-note-like ${isLiked ? 'liked' : ''}" 
                   data-note-id="${note.id}" 
@@ -280,7 +178,6 @@ function handleLikeClick(noteId, btnElement) {
     targetNote.likes = (targetNote.likes || 0) + 1;
     btnElement.classList.add('liked');
 
-    // Trigger subtle sparkle particle if available
     createHeartSparkle(btnElement);
   }
 
@@ -317,45 +214,17 @@ function createHeartSparkle(element) {
   setTimeout(() => heart.remove(), 600);
 }
 
-function setupBiasSelector() {
-  const container = document.getElementById('bias-picker-options');
-  if (!container) return;
-
-  container.querySelectorAll('.bias-picker-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.bias-picker-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedBias = btn.getAttribute('data-bias') || 'mark';
-    });
-  });
-}
-
-function setupEventTagSelector() {
-  const container = document.getElementById('event-tag-options');
-  if (!container) return;
-
-  container.querySelectorAll('.event-tag-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.event-tag-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedEventTag = btn.getAttribute('data-tag') || '🌙 Pajama Party';
-    });
-  });
-}
-
 function handleFormSubmit(e) {
   e.preventDefault();
 
   const authorInput = document.getElementById('guestbook-name-input');
   const messageInput = document.getElementById('guestbook-message-input');
-  const signInput = document.getElementById('guestbook-sign-input');
 
   const author = authorInput ? authorInput.value.trim() : '';
   const message = messageInput ? messageInput.value.trim() : '';
-  const sign = signInput ? signInput.value.trim() : '';
 
   if (!author || !message) {
-    alert('Silakan masukkan nama/nickname dan isi pesan kesanmu ya! 💚');
+    alert('Silakan masukkan nama/username dan isi pesanmu ya! 💚');
     return;
   }
 
@@ -365,10 +234,7 @@ function handleFormSubmit(e) {
   const newNote = {
     id: `note-${Date.now()}`,
     author: author,
-    bias: selectedBias || 'mark',
-    eventTag: selectedEventTag || '🌙 Pajama Party',
     message: message,
-    handwritten: sign || 'My Dream is My Youth ✨',
     timeAgo: 'Baru saja',
     likes: 1,
     washiClass: randomWashi,
@@ -376,7 +242,7 @@ function handleFormSubmit(e) {
   };
 
   const notes = getStoredNotes();
-  notes.unshift(newNote); // Put at beginning of wall
+  notes.unshift(newNote);
   saveStoredNotes(notes);
 
   // Re-render
@@ -387,8 +253,8 @@ function handleFormSubmit(e) {
   closeGuestbookModal();
   e.target.reset();
 
-  // Show Sweet Toast
-  showToast('Pesan kenanganmu berhasil ditempel di Memory Wall! 💚✨');
+  // Show Toast
+  showToast('Pesan & kesanmu berhasil dikirim! 💚✨');
 
   // Scroll to new note
   setTimeout(() => {
@@ -420,7 +286,7 @@ function closeGuestbookModal() {
 function updateCounter(count) {
   const counterElem = document.getElementById('guestbook-total-counter');
   if (counterElem) {
-    counterElem.textContent = `✨ ${count} Cerita Terkumpul`;
+    counterElem.textContent = count > 0 ? `✨ ${count} Pesan Terkumpul` : '✨ Ruang Pesan & Kesan';
   }
 }
 
