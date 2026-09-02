@@ -1,27 +1,38 @@
 /**
- * GUESTBOOK / KESAN & PESAN MODULE
- * Lightweight, clean, responsive interactive message board with localStorage & likes
+ * GUESTBOOK / DREAM NOTES MODULE
+ * Lightweight, cute, swipeable horizontal card track with localStorage & likes
  */
 
-const STORAGE_KEY = 'dearmydream_guestbook_notes_v2';
-const LIKES_KEY = 'dearmydream_guestbook_likes_v2';
+const STORAGE_KEY = 'dearmydream_guestbook_notes_v3';
+const LIKES_KEY = 'dearmydream_guestbook_likes_v3';
 
 const WASHI_OPTIONS = ['', 'washi-yellow', 'washi-orange', 'washi-pink', 'washi-blue'];
-const TILT_OPTIONS = ['left', 'right', 'straight'];
 
 export function initGuestbook() {
-  const gridContainer = document.getElementById('guestbook-grid');
+  const trackContainer = document.getElementById('guestbook-track');
   const triggerBtn = document.getElementById('btn-open-guestbook-modal');
   const modalBackdrop = document.getElementById('guestbook-modal');
   const closeModalBtn = document.getElementById('guestbook-modal-close');
   const form = document.getElementById('guestbook-form');
+  const prevBtn = document.getElementById('notes-prev-btn');
+  const nextBtn = document.getElementById('notes-next-btn');
 
-  if (!gridContainer) return;
+  if (!trackContainer) return;
 
   // Render stored notes (starts empty if none)
   const notes = getStoredNotes();
   renderNotes(notes);
   updateCounter(notes.length);
+
+  // Setup Arrow Controls
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+      trackContainer.scrollBy({ left: -280, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+      trackContainer.scrollBy({ left: 280, behavior: 'smooth' });
+    });
+  }
 
   // Setup modal open
   if (triggerBtn && modalBackdrop) {
@@ -97,27 +108,38 @@ function saveLikedNotes(likedMap) {
 }
 
 function renderNotes(notes) {
-  const grid = document.getElementById('guestbook-grid');
-  if (!grid) return;
+  const track = document.getElementById('guestbook-track');
+  const sliderNav = document.getElementById('guestbook-slider-nav');
+  if (!track) return;
 
   if (notes.length === 0) {
-    grid.innerHTML = `
+    if (sliderNav) sliderNav.style.display = 'none';
+    track.className = 'memory-wall-track centered';
+    track.innerHTML = `
       <div class="empty-guestbook-box">
         <div class="empty-guestbook-icon">💌</div>
-        <div class="empty-guestbook-title">Belum ada kesan & pesan yang ditulis</div>
+        <div class="empty-guestbook-title">Belum ada Dream Note yang ditulis</div>
         <div class="empty-guestbook-sub">Jadilah yang pertama menuliskan cerita manismu di sini! ✨</div>
       </div>
     `;
     return;
   }
 
+  // Toggle slider nav arrows
+  if (sliderNav) {
+    sliderNav.style.display = notes.length > 2 ? 'flex' : 'none';
+  }
+
+  // If 1 or 2 notes, center them
+  track.className = notes.length <= 2 ? 'memory-wall-track centered' : 'memory-wall-track';
+
   const likedMap = getLikedNotes();
 
-  grid.innerHTML = notes.map(note => {
+  track.innerHTML = notes.map(note => {
     const isLiked = !!likedMap[note.id];
 
     return `
-      <article class="memo-note-card" data-tilt="${note.tilt || 'straight'}" id="note-card-${note.id}">
+      <article class="memo-note-card" id="note-card-${note.id}">
         <div class="note-washi ${note.washiClass || ''}" aria-hidden="true"></div>
 
         <div>
@@ -135,12 +157,12 @@ function renderNotes(notes) {
         </div>
 
         <div class="note-footer-row">
-          <span class="note-stamp-tag">💚 Pesan Teman</span>
+          <span class="note-stamp-tag">💌 Dream Note</span>
           
           <button type="button" class="btn-note-like ${isLiked ? 'liked' : ''}" 
                   data-note-id="${note.id}" 
                   aria-label="Sukai pesan dari ${escapeHtml(note.author)}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="${isLiked ? '#BE123C' : 'none'}" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="${isLiked ? '#BE123C' : 'none'}" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
             <span class="like-count">${note.likes || 0}</span>
@@ -151,7 +173,7 @@ function renderNotes(notes) {
   }).join('');
 
   // Attach like button click listeners
-  grid.querySelectorAll('.btn-note-like').forEach(btn => {
+  track.querySelectorAll('.btn-note-like').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const noteId = btn.getAttribute('data-note-id');
@@ -197,21 +219,21 @@ function createHeartSparkle(element) {
   heart.style.position = 'fixed';
   heart.style.left = `${rect.left + rect.width / 2}px`;
   heart.style.top = `${rect.top}px`;
-  heart.style.fontSize = '18px';
+  heart.style.fontSize = '16px';
   heart.style.pointerEvents = 'none';
   heart.style.zIndex = '9999';
-  heart.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+  heart.style.transition = 'all 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
   heart.style.transform = 'translate(-50%, 0) scale(1)';
   heart.style.opacity = '1';
 
   document.body.appendChild(heart);
 
   requestAnimationFrame(() => {
-    heart.style.transform = 'translate(-50%, -45px) scale(1.4)';
+    heart.style.transform = 'translate(-50%, -40px) scale(1.35)';
     heart.style.opacity = '0';
   });
 
-  setTimeout(() => heart.remove(), 600);
+  setTimeout(() => heart.remove(), 550);
 }
 
 function handleFormSubmit(e) {
@@ -229,7 +251,6 @@ function handleFormSubmit(e) {
   }
 
   const randomWashi = WASHI_OPTIONS[Math.floor(Math.random() * WASHI_OPTIONS.length)];
-  const randomTilt = TILT_OPTIONS[Math.floor(Math.random() * TILT_OPTIONS.length)];
 
   const newNote = {
     id: `note-${Date.now()}`,
@@ -237,8 +258,7 @@ function handleFormSubmit(e) {
     message: message,
     timeAgo: 'Baru saja',
     likes: 1,
-    washiClass: randomWashi,
-    tilt: randomTilt
+    washiClass: randomWashi
   };
 
   const notes = getStoredNotes();
@@ -254,15 +274,13 @@ function handleFormSubmit(e) {
   e.target.reset();
 
   // Show Toast
-  showToast('Pesan & kesanmu berhasil dikirim! 💚✨');
+  showToast('Dream Note berhasil ditempel! 💚✨');
 
-  // Scroll to new note
-  setTimeout(() => {
-    const newCard = document.getElementById(`note-card-${newNote.id}`);
-    if (newCard) {
-      newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, 350);
+  // Scroll to track start
+  const track = document.getElementById('guestbook-track');
+  if (track) {
+    track.scrollTo({ left: 0, behavior: 'smooth' });
+  }
 }
 
 function openGuestbookModal() {
@@ -286,7 +304,7 @@ function closeGuestbookModal() {
 function updateCounter(count) {
   const counterElem = document.getElementById('guestbook-total-counter');
   if (counterElem) {
-    counterElem.textContent = count > 0 ? `✨ ${count} Pesan Terkumpul` : '✨ Ruang Pesan & Kesan';
+    counterElem.textContent = count > 0 ? `✨ ${count} Dream Note Terkumpul` : '✨ Ruang Dream Note';
   }
 }
 

@@ -333,7 +333,7 @@
         <div class="guestbook-header-box">
           <div class="guestbook-stats-pill">
             <span class="pulse-dot"></span>
-            <span id="guestbook-total-counter">✨ 6+ Cerita Terkumpul</span>
+            <span id="guestbook-total-counter">✨ Ruang Dream Note</span>
           </div>
 
           <h2 class="guestbook-title">
@@ -346,7 +346,7 @@
 
           <div class="guestbook-cta-wrap">
             <button id="btn-open-guestbook-modal" class="btn-guestbook-trigger" aria-label="Buka Form Tulis Kesan dan Pesan">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 20h9"></path>
                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
               </svg>
@@ -355,9 +355,16 @@
           </div>
         </div>
 
-        <!-- Scrapbook Memo Notes Masonry Grid Deck -->
-        <div id="guestbook-grid" class="memory-wall-grid" aria-live="polite">
-          <!-- Dynamically injected via guestbook.js -->
+        <!-- Carousel / Horizontal Swipeable Card Deck -->
+        <div class="guestbook-carousel-container">
+          <div id="guestbook-slider-nav" class="guestbook-slider-nav" style="display: none;">
+            <button id="notes-prev-btn" class="btn-slider-arrow" aria-label="Geser ke kiri">‹</button>
+            <button id="notes-next-btn" class="btn-slider-arrow" aria-label="Geser ke kanan">›</button>
+          </div>
+
+          <div id="guestbook-track" class="memory-wall-track centered" aria-live="polite">
+            <!-- Dynamically injected via guestbook.js -->
+          </div>
         </div>
 
       </div>

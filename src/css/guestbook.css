@@ -1,10 +1,10 @@
 /* ==========================================================================
-   GUESTBOOK / KESAN & PESAN CLEAN STYLING
-   Lightweight, Simple Modal, and Responsive Cards
+   GUESTBOOK / DREAM NOTES CLEAN & CUTE STYLING
+   Compact Mobile-First Layout, Horizontal Swipe Slider & Cute Scrapbook Cards
    ========================================================================== */
 
 .guestbook-section {
-  padding: clamp(3rem, 5vw, 4.5rem) 0;
+  padding: clamp(2.5rem, 4vw, 3.75rem) 0;
   position: relative;
   background: var(--color-bg-canvas);
   border-top: 2px dashed rgba(22, 40, 30, 0.15);
@@ -12,58 +12,58 @@
 
 .guestbook-header-box {
   text-align: center;
-  max-width: 620px;
-  margin: 0 auto clamp(1.75rem, 3.5vw, 2.5rem) auto;
+  max-width: 580px;
+  margin: 0 auto clamp(1.25rem, 2.5vw, 1.85rem) auto;
 }
 
 .guestbook-stats-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
   background: var(--color-bg-card);
   border: var(--border-thin);
   border-radius: var(--radius-full);
   box-shadow: 2px 2px 0px var(--color-ink);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--color-ink);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 .guestbook-title {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.15rem);
   font-weight: 900;
   color: var(--color-ink);
   line-height: 1.15;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
 }
 
 .guestbook-subtitle {
-  font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+  font-size: clamp(0.88rem, 1.6vw, 0.96rem);
   color: var(--color-ink-muted);
-  line-height: 1.55;
-  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
 }
 
 .guestbook-cta-wrap {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .btn-guestbook-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   background: var(--color-neobong-neon);
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  padding: 0.85rem 1.75rem;
+  padding: 0.75rem 1.45rem;
   border-radius: var(--radius-full);
   border: var(--border-med);
   box-shadow: var(--shadow-neo);
@@ -73,130 +73,182 @@
 }
 
 .btn-guestbook-trigger:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 6px 6px 0px var(--color-ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--color-ink);
   background: #D4FF22;
 }
 
 .btn-guestbook-trigger:active {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px var(--color-ink);
+  box-shadow: 1px 1px 0px var(--color-ink);
 }
 
-/* --- Empty Guestbook Box --- */
-.empty-guestbook-box {
-  grid-column: 1 / -1;
-  background: #FFFFFF;
-  border: 2px dashed rgba(22, 40, 30, 0.25);
-  border-radius: var(--radius-lg);
-  padding: clamp(2.5rem, 5vw, 3.5rem) 1.5rem;
-  text-align: center;
+/* --- Carousel Container & Controls --- */
+.guestbook-carousel-container {
+  position: relative;
+  width: 100%;
   margin-top: 1rem;
 }
 
-.empty-guestbook-icon {
-  font-size: 2.5rem;
+.guestbook-slider-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
   margin-bottom: 0.6rem;
+}
+
+.btn-slider-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+.btn-slider-arrow:hover:not(:disabled) {
+  background: var(--color-neobong-neon);
+  transform: translateY(-1px);
+}
+
+.btn-slider-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- Memory Wall Track (Swipeable Horizontal Scroll Snap) --- */
+.memory-wall-track {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.5rem 0.2rem 0.85rem 0.2rem;
+  box-sizing: border-box;
+}
+
+.memory-wall-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* When only 1 or 2 items exist, center them nicely */
+.memory-wall-track.centered {
+  justify-content: center;
+}
+
+/* --- Empty State Box --- */
+.empty-guestbook-box {
+  width: 100%;
+  max-width: 480px;
+  margin: 0.5rem auto;
+  background: #FFFFFF;
+  border: 2px dashed rgba(22, 40, 30, 0.22);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.empty-guestbook-icon {
+  font-size: 1.85rem;
+  margin-bottom: 0.4rem;
 }
 
 .empty-guestbook-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 0.98rem;
   font-weight: 800;
   color: var(--color-ink);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 .empty-guestbook-sub {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--color-ink-muted);
 }
 
-/* --- Memory Wall Grid --- */
-.memory-wall-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: clamp(1.2rem, 2vw, 1.6rem);
-  margin-top: 1.25rem;
-}
-
-@media (max-width: 480px) {
-  .memory-wall-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --- Individual Scrapbook Memo Card --- */
+/* --- Cute & Compact Dream Note Memo Card --- */
 .memo-note-card {
+  flex: 0 0 260px;
+  max-width: 280px;
+  scroll-snap-align: start;
   background: #FFFFFF;
-  border: var(--border-med);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-neo);
-  padding: 1.35rem 1.25rem 1.15rem 1.25rem;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: 3px 3px 0px var(--color-ink);
+  padding: 0.85rem 0.95rem 0.75rem 0.95rem;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-  animation: notePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  min-height: 130px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: notePopIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .memo-note-card {
+    flex: 0 0 280px;
+    max-width: 300px;
+  }
 }
 
 .memo-note-card:hover {
-  transform: translateY(-4px) scale(1.015);
-  box-shadow: 5px 5px 0px var(--color-ink);
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 0px var(--color-ink);
 }
 
-.memo-note-card[data-tilt="left"] {
-  transform: rotate(-1deg);
-}
-.memo-note-card[data-tilt="left"]:hover {
-  transform: translateY(-4px) rotate(-0.3deg) scale(1.015);
-}
-
-.memo-note-card[data-tilt="right"] {
-  transform: rotate(1deg);
-}
-.memo-note-card[data-tilt="right"]:hover {
-  transform: translateY(-4px) rotate(0.3deg) scale(1.015);
-}
-
+/* Cute Mini Washi Tape */
 .note-washi {
   position: absolute;
-  top: -9px;
+  top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 20px;
-  background: rgba(197, 232, 203, 0.85);
-  border: 1px dashed rgba(22, 40, 30, 0.3);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  width: 60px;
+  height: 14px;
+  background: rgba(197, 232, 203, 0.88);
+  border: 1px dashed rgba(22, 40, 30, 0.28);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   pointer-events: none;
   z-index: 2;
 }
 
-.note-washi.washi-yellow { background: rgba(254, 240, 138, 0.85); }
-.note-washi.washi-orange { background: rgba(254, 215, 170, 0.85); }
-.note-washi.washi-pink   { background: rgba(251, 207, 232, 0.85); }
-.note-washi.washi-blue   { background: rgba(186, 230, 253, 0.85); }
+.note-washi.washi-yellow { background: rgba(254, 240, 138, 0.88); }
+.note-washi.washi-orange { background: rgba(254, 215, 170, 0.88); }
+.note-washi.washi-pink   { background: rgba(251, 207, 232, 0.88); }
+.note-washi.washi-blue   { background: rgba(186, 230, 253, 0.88); }
 
 /* Note Author Header */
 .note-author-row {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .note-avatar-circle {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1.5px solid var(--color-ink);
   background: var(--color-pastel-mint-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.85rem;
   flex-shrink: 0;
   box-shadow: 1px 1px 0px var(--color-ink);
 }
@@ -208,53 +260,63 @@
 
 .note-author-name {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 800;
   color: var(--color-ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .note-time-text {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--color-ink-light);
   font-weight: 600;
+  line-height: 1.1;
 }
 
+/* Note Message Text */
 .note-message-body {
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: 0.84rem;
+  line-height: 1.45;
   color: var(--color-ink);
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   white-space: pre-line;
   word-break: break-word;
 }
 
+/* Note Footer */
 .note-footer-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.65rem;
-  border-top: 1px dashed rgba(22, 40, 30, 0.15);
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(22, 40, 30, 0.12);
   margin-top: auto;
 }
 
 .note-stamp-tag {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  color: var(--color-ink-light);
+  color: #2D5A38;
+  background: rgba(197, 232, 203, 0.45);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .btn-note-like {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   background: var(--color-bg-card);
-  border: 1.5px solid var(--color-ink);
+  border: 1.2px solid var(--color-ink);
   border-radius: var(--radius-full);
-  padding: 0.25rem 0.65rem;
-  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
   font-weight: 800;
   color: var(--color-ink);
   cursor: pointer;
@@ -264,7 +326,7 @@
 
 .btn-note-like:hover {
   background: #FEE2E2;
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .btn-note-like.liked {
@@ -310,9 +372,9 @@
   border-radius: var(--radius-lg);
   box-shadow: 8px 8px 0px var(--color-ink);
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   position: relative;
-  padding: clamp(1.25rem, 3.5vw, 1.75rem);
+  padding: clamp(1.15rem, 3vw, 1.5rem);
   box-sizing: border-box;
   margin: auto;
   animation: modalPopUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -322,23 +384,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .guestbook-modal-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 900;
   color: var(--color-ink);
   margin: 0;
 }
 
 .guestbook-modal-close-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 2px solid var(--color-ink);
+  border: 1.5px solid var(--color-ink);
   box-shadow: 2px 2px 0px var(--color-ink);
   display: flex;
   align-items: center;
@@ -360,16 +422,16 @@
 }
 
 .guestbook-form-group {
-  margin-bottom: 1.15rem;
+  margin-bottom: 0.95rem;
 }
 
 .guestbook-label {
   display: block;
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 800;
   color: var(--color-ink);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -377,12 +439,12 @@
 .guestbook-input,
 .guestbook-textarea {
   width: 100%;
-  padding: 0.75rem 0.9rem;
+  padding: 0.65rem 0.85rem;
   border: var(--border-thin);
   border-radius: var(--radius-sm);
   background: #FFFFFF;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--color-ink);
   box-sizing: border-box;
   transition: var(--transition-fast);
@@ -398,17 +460,17 @@
 
 .guestbook-textarea {
   resize: vertical;
-  min-height: 110px;
-  line-height: 1.5;
+  min-height: 95px;
+  line-height: 1.45;
 }
 
 .btn-guestbook-submit {
   width: 100%;
-  padding: 0.85rem 1.25rem;
+  padding: 0.75rem 1.15rem;
   background: var(--color-neobong-neon);
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 900;
   border: var(--border-med);
   border-radius: var(--radius-full);
@@ -417,14 +479,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   transition: var(--transition-fast);
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 
 .btn-guestbook-submit:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px var(--color-ink);
+  box-shadow: 4px 4px 0px var(--color-ink);
   background: #D4FF22;
 }
 
@@ -441,14 +503,14 @@
   background: var(--color-ink);
   color: #FFFFFF;
   border: 2px solid var(--color-neobong-neon);
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.15rem;
   border-radius: var(--radius-full);
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   z-index: 1200;
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -463,7 +525,7 @@
 @keyframes notePopIn {
   from {
     opacity: 0;
-    transform: scale(0.88) translateY(15px);
+    transform: scale(0.9) translateY(12px);
   }
   to {
     opacity: 1;
@@ -474,7 +536,7 @@
 @keyframes modalPopUp {
   from {
     opacity: 0;
-    transform: scale(0.94) translateY(15px);
+    transform: scale(0.94) translateY(12px);
   }
   to {
     opacity: 1;
@@ -484,6 +546,6 @@
 
 @keyframes heartBeat {
   0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+  50% { transform: scale(1.25); }
   100% { transform: scale(1); }
 }
