@@ -86,9 +86,7 @@ export const eventsArchive = [
     handwrittenNote: "Kolato Cijagra • Always With Mark 🐯✨",
     coverImage: "/events/dear_mark_always_been_mark_official.jpg",
     gallery: [
-      { src: "/events/dear_mark_always_been_mark_official.jpg", caption: "Poster Resmi Dear Mark, Always Been Mark" },
-      { src: "/events/photobooth_bobbliss.jpg", caption: "Photobooth Moments" },
-      { src: "/events/sponsor_media_partners.jpg", caption: "Community Partner Showcase" }
+      { src: "/events/dear_mark_always_been_mark_official.jpg", caption: "Poster Resmi Dear Mark, Always Been Mark" }
     ],
     details: {
       location: "Kolato Cijagra, Kota Bandung",
