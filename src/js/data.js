@@ -18,25 +18,38 @@ export const eventsArchive = [
     handwrittenNote: "Cornerstone Paskal • Pajama Vibe 💚",
     coverImage: "/events/dear_dream_pajama_party_official.jpg",
     gallery: [
-      { src: "/events/dear_dream_pajama_party_official.jpg", caption: "Poster Resmi The Sweet Dream Hotel (Pajama Party)" }
+      { src: "/events/dear_dream_pajama_party_official.jpg", caption: "Poster Resmi The Sweet Dream Hotel" },
+      { src: "/events/pajama_01_info_activities.jpg", caption: "Info Event, Activities & HTM Tiket" },
+      { src: "/events/pajama_02_dresscode.jpg", caption: "Panduan Dresscode: Daster & Piyama" },
+      { src: "/events/pajama_03_goodies.jpg", caption: "Goodies & Starter Pack Preview" },
+      { src: "/events/pajama_04_rundown.jpg", caption: "Rundown & Jadwal Lengkap Acara" },
+      { src: "/events/pajama_05_photobooth.jpg", caption: "Bobbliss Special Photostrip Photobooth" },
+      { src: "/events/pajama_06_sponsors.jpg", caption: "Official Event Sponsors" },
+      { src: "/events/pajama_07_media_partners.jpg", caption: "Media Partners Showcase" },
+      { src: "/events/pajama_08_dos_and_donts.jpg", caption: "Panduan Do's and Don'ts" }
     ],
     details: {
       location: "Cornerstone Classroom, Paskal Hyper Square, Bandung",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cornerstone+Classroom+Paskal+Hyper+Square+Bandung",
       dresscode: "Daster / Piyama (Santai & Nyaman)",
       activities: [
-        "Pajama Party & 10th Dreamversary Celebration",
-        "Noraebang Sing-Along Lagu Hits NCT DREAM",
-        "Bobbliss Custom 4-Cut Photobooth Slot",
-        "MJ Market GO Official Merch Corner",
-        "Paket Makan Siang BBQ / Ayam Suwir",
-        "Games Trivia & Doorprize Neobong"
+        "Nobar 10th Anniversary NCT Dream",
+        "Celebrate Jaemin's & Mark's Birthday",
+        "Fun Games & Doorprizes",
+        "Noraebang Sing-Along",
+        "Bobbliss Special Photostrip Photobooth",
+        "Birthday Photo Zone & Mini Exhibition",
+        "Booth Merchandise by MJ Market GO"
       ],
       freebies: [
-        "Bantal Duduk Custom",
-        "Special Bag Charm",
-        "Sticker ID Member",
-        "Photocard Edisi Khusus"
+        "Topper (Get 2 Mark & Jaemin)",
+        "Pin Button (Get 2 Jaemin & Mark)",
+        "Lollipop + Candy Holder",
+        "Wristband Satin",
+        "Mini Cake",
+        "Sticker Sheet (Get 2)",
+        "Kipas Kerang (Random Member)",
+        "Totebag"
       ],
       sponsors: [
         "@Axellagift",

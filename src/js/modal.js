@@ -99,11 +99,18 @@ export function openModal(eventData) {
 
     <!-- Thumbnail Picker if multiple photos -->
     ${eventData.gallery && eventData.gallery.length > 1 ? `
-      <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 1rem;">
+      <div class="modal-thumb-row" role="tablist" aria-label="Pilih foto event">
         ${eventData.gallery.map((g, idx) => `
-          <img src="${g.src}" alt="${g.caption}" class="modal-thumb ${idx === 0 ? 'active' : ''}" 
-               style="width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 2px solid var(--color-ink); cursor: pointer; flex-shrink: 0;"
-               onclick="document.getElementById('modal-active-img').src='${g.src}'">
+          <button type="button" class="modal-thumb-btn ${idx === 0 ? 'active' : ''}" 
+                  title="${g.caption}" aria-label="${g.caption}"
+                  onclick="
+                    const img = document.getElementById('modal-active-img');
+                    if (img) img.src='${g.src}';
+                    document.querySelectorAll('.modal-thumb-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                  ">
+            <img src="${g.src}" alt="${g.caption}" class="modal-thumb-img" loading="lazy">
+          </button>
         `).join('')}
       </div>
     ` : ''}
