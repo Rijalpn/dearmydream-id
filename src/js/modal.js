@@ -65,7 +65,7 @@ export function openModal(eventData) {
   if (!backdrop || !modalContent) return;
 
   const activitiesHtml = eventData.details.activities
-    .map(act => `<li style="margin-bottom: 4px;">• ${act}</li>`)
+    .map(act => `<li style="margin-bottom: 5px; display: flex; align-items: center; gap: 6px; line-height: 1.3;"><span style="color: var(--color-brand-primary, #748C7B); font-weight: 800; font-size: 1.1rem; line-height: 1;">•</span><span>${act}</span></li>`)
     .join('');
 
   const freebiesHtml = eventData.details.freebies

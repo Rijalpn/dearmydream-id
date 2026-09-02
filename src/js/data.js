@@ -33,13 +33,12 @@ export const eventsArchive = [
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cornerstone+Classroom+Paskal+Hyper+Square+Bandung",
       dresscode: "Daster / Piyama (Santai & Nyaman)",
       activities: [
-        "Nobar 10th Anniversary NCT Dream",
-        "Celebrate Jaemin's & Mark's Birthday",
-        "Fun Games & Doorprizes",
-        "Noraebang Sing-Along",
-        "Bobbliss Special Photostrip Photobooth",
-        "Birthday Photo Zone & Mini Exhibition",
-        "Booth Merchandise by MJ Market GO"
+        "Nobar 10th Anniversary NCT DREAM",
+        "Celebrate Jaemin & Mark Birthday",
+        "Sing Along & Noraebang Party",
+        "Bobbliss Photobooth Special Theme",
+        "Birthday Photo Zone & Exhibition",
+        "Merchandise Booth by MJ Market GO"
       ],
       freebies: [
         "Topper (Get 2 Mark & Jaemin)",
@@ -99,10 +98,10 @@ export const eventsArchive = [
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kolato+Cijagra+Kota+Bandung",
       dresscode: "Vintage / Earth Tone",
       activities: [
-        "Nobar Mark Lee Journey & Video Tribute",
-        "Sing A Long (Noraebang) Lagu Solo & Dream",
-        "MarQie (Mark Lee Quiz) & Mini Games",
-        "Stuff Sharing & Write Wishing for Mark",
+        "Nobar Mark Lee Journey & Tribute",
+        "Sing A Long & Noraebang Party",
+        "MarQie Quiz & Mini Games",
+        "Stuff Sharing & Wishing Note",
         "Mini Exhibition & Photo Booth",
         "Doorprize Official NCT DREAM Merch"
       ],
