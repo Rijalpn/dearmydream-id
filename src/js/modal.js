@@ -73,11 +73,31 @@ export function openModal(eventData) {
     .join('');
 
   const sponsorsHtml = eventData.details.sponsors
-    .map(sp => `<span class="badge-pill badge-mark" style="margin: 2px;">${sp}</span>`)
+    .map(sp => {
+      const cleanHandle = sp.replace(/^@/, '').trim();
+      const igUrl = `https://www.instagram.com/${cleanHandle}/`;
+      return `<a href="${igUrl}" target="_blank" rel="noopener noreferrer" class="badge-pill badge-mark badge-link" title="Kunjungi Instagram @${cleanHandle}" style="margin: 2px;">
+        <span>@${cleanHandle}</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.7;">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>`;
+    })
     .join('');
 
   const mediaPartnersHtml = eventData.details.mediaPartners
-    .map(mp => `<span class="badge-pill badge-dream" style="margin: 2px;">${mp}</span>`)
+    .map(mp => {
+      const cleanHandle = mp.replace(/^@/, '').trim();
+      const igUrl = `https://www.instagram.com/${cleanHandle}/`;
+      return `<a href="${igUrl}" target="_blank" rel="noopener noreferrer" class="badge-pill badge-dream badge-link" title="Kunjungi Instagram @${cleanHandle}" style="margin: 2px;">
+        <span>@${cleanHandle}</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.7;">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>`;
+    })
     .join('');
 
   modalContent.innerHTML = `

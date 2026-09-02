@@ -85,7 +85,6 @@
   box-shadow: var(--shadow-active);
 }
 
-/* --- Status Badges & Pills --- */
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -100,6 +99,23 @@
   max-width: 100%;
   word-break: break-word;
   line-height: 1.25;
+}
+
+.badge-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+}
+
+.badge-link:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 3px 3px 0px var(--color-ink);
+  filter: brightness(1.05);
+}
+
+.badge-link:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 1px 1px 0px var(--color-ink);
 }
 
 .badge-live {
