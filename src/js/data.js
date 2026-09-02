@@ -78,7 +78,7 @@ export const eventsArchive = [
     title: "Dear Mark : Always Been Mark",
     subtitle: "Project for Mark Lee",
     edition: "Vol. 01 • Bandung",
-    dateFormatted: "6 June 2026",
+    dateFormatted: "6 June 2026 (14.30 - 18.00 WIB)",
     tagText: "🐯 Mark Birthday Gathering",
     badgeClass: "badge-mark",
     tilt: "left",
@@ -86,16 +86,24 @@ export const eventsArchive = [
     handwrittenNote: "Kolato Cijagra • Always With Mark 🐯✨",
     coverImage: "/events/dear_mark_always_been_mark_official.jpg",
     gallery: [
-      { src: "/events/dear_mark_always_been_mark_official.jpg", caption: "Poster Resmi Dear Mark, Always Been Mark" }
+      { src: "/events/dear_mark_always_been_mark_official.jpg", caption: "Poster Resmi Dear Mark, Always Been Mark" },
+      { src: "/events/mark_01_activities.jpg", caption: "Event Activities & Highlight" },
+      { src: "/events/mark_02_dresscode.jpg", caption: "Dress Code: Vintage / Earth Tone" },
+      { src: "/events/mark_03_rundown.jpg", caption: "Rundown & Jadwal Acara Lengkap" },
+      { src: "/events/mark_04_dos_and_donts.jpg", caption: "Panduan Do's and Don'ts" },
+      { src: "/events/mark_05_sponsors.jpg", caption: "Official Event Sponsors" },
+      { src: "/events/mark_06_media_partners.jpg", caption: "Media Partners Showcase" }
     ],
     details: {
       location: "Kolato Cijagra, Kota Bandung",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kolato+Cijagra+Kota+Bandung",
       dresscode: "Vintage / Earth Tone",
       activities: [
-        "Nobar Dokumenter & Konser Mark Lee",
-        "Sing A Long Party Lagu Solo & Dream",
-        "1 Sentence Video Tribute for Mark",
+        "Nobar Mark Lee Journey & Video Tribute",
+        "Sing A Long (Noraebang) Lagu Solo & Dream",
+        "MarQie (Mark Lee Quiz) & Mini Games",
+        "Stuff Sharing & Write Wishing for Mark",
+        "Mini Exhibition & Photo Booth",
         "Doorprize Official NCT DREAM Merch"
       ],
       freebies: [
@@ -112,10 +120,10 @@ export const eventsArchive = [
       mediaPartners: [
         "@noraezenbdg",
         "@eventbandungid",
-        "@nctzenbandung",
         "@kpopersjabar",
         "@marklee_archives",
         "@tukangulin_bandung",
+        "@nctzenbandung",
         "@papebandung",
         "@nctzone.idn"
       ]
