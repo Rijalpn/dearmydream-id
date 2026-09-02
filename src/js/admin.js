@@ -6,7 +6,7 @@
 
 import { db, doc, deleteDoc } from './firebase-config.js';
 
-const ADMIN_PIN = '127000'; // Default admin PIN
+const ADMIN_PIN = '020899'; // Mark Lee's Birthday (02-08-1999)
 const SESSION_KEY = 'dearmydream_admin_auth';
 
 let isAdminLoggedIn = false;
@@ -52,18 +52,6 @@ function setupAuthModal() {
   const authModal = document.getElementById('admin-modal');
   const closeBtn = document.getElementById('admin-modal-close');
   const form = document.getElementById('admin-login-form');
-  const footerTrigger = document.getElementById('footer-admin-trigger');
-
-  if (footerTrigger) {
-    footerTrigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (isAdminLoggedIn) {
-        openAdminPanel();
-      } else {
-        openAuthModal();
-      }
-    });
-  }
 
   if (closeBtn && authModal) {
     closeBtn.addEventListener('click', closeAuthModal);
