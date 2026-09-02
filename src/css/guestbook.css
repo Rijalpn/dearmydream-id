@@ -1,10 +1,10 @@
 /* ==========================================================================
-   GUESTBOOK / DREAM NOTES CLEAN & CUTE STYLING
-   Compact Mobile-First Layout, Horizontal Swipe Slider & Cute Scrapbook Cards
+   GUESTBOOK / DREAM NOTES (MAX 3 VERTICAL WITH PAGINATION)
+   Clean, Compact Mobile-First Vertical Stack with Button Pagination
    ========================================================================== */
 
 .guestbook-section {
-  padding: clamp(2.5rem, 4vw, 3.75rem) 0;
+  padding: clamp(2.5rem, 4vw, 3.5rem) 0;
   position: relative;
   background: var(--color-bg-canvas);
   border-top: 2px dashed rgba(22, 40, 30, 0.15);
@@ -13,7 +13,7 @@
 .guestbook-header-box {
   text-align: center;
   max-width: 580px;
-  margin: 0 auto clamp(1.25rem, 2.5vw, 1.85rem) auto;
+  margin: 0 auto clamp(1.25rem, 2.5vw, 1.75rem) auto;
 }
 
 .guestbook-stats-pill {
@@ -83,76 +83,23 @@
   box-shadow: 1px 1px 0px var(--color-ink);
 }
 
-/* --- Carousel Container & Controls --- */
-.guestbook-carousel-container {
-  position: relative;
+/* --- Container for Vertical Cards (Max 3 Stacked) --- */
+.guestbook-feed-container {
+  max-width: 520px;
+  margin: 1.25rem auto 0 auto;
   width: 100%;
-  margin-top: 1rem;
-}
-
-.guestbook-slider-nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-bottom: 0.6rem;
-}
-
-.btn-slider-arrow {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  border: 1.5px solid var(--color-ink);
-  box-shadow: 2px 2px 0px var(--color-ink);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--color-ink);
-  font-size: 1.1rem;
-  font-weight: 800;
-  transition: var(--transition-fast);
-  user-select: none;
-}
-
-.btn-slider-arrow:hover:not(:disabled) {
-  background: var(--color-neobong-neon);
-  transform: translateY(-1px);
-}
-
-.btn-slider-arrow:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* --- Memory Wall Track (Swipeable Horizontal Scroll Snap) --- */
-.memory-wall-track {
-  display: flex;
-  gap: 0.85rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 0.5rem 0.2rem 0.85rem 0.2rem;
   box-sizing: border-box;
 }
 
-.memory-wall-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* When only 1 or 2 items exist, center them nicely */
-.memory-wall-track.centered {
-  justify-content: center;
+.guestbook-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
 }
 
 /* --- Empty State Box --- */
 .empty-guestbook-box {
-  width: 100%;
-  max-width: 480px;
-  margin: 0.5rem auto;
   background: #FFFFFF;
   border: 2px dashed rgba(22, 40, 30, 0.22);
   border-radius: var(--radius-md);
@@ -179,35 +126,25 @@
   color: var(--color-ink-muted);
 }
 
-/* --- Cute & Compact Dream Note Memo Card --- */
+/* --- Cute & Compact Vertical Memo Card --- */
 .memo-note-card {
-  flex: 0 0 260px;
-  max-width: 280px;
-  scroll-snap-align: start;
+  width: 100%;
   background: #FFFFFF;
   border: var(--border-thin);
   border-radius: var(--radius-sm);
   box-shadow: 3px 3px 0px var(--color-ink);
-  padding: 0.85rem 0.95rem 0.75rem 0.95rem;
+  padding: 0.85rem 1rem 0.75rem 1rem;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 130px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  animation: notePopIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
   box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-  .memo-note-card {
-    flex: 0 0 280px;
-    max-width: 300px;
-  }
+  animation: notePopIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .memo-note-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 4px 4px 0px var(--color-ink);
 }
 
@@ -217,8 +154,8 @@
   top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 14px;
+  width: 55px;
+  height: 13px;
   background: rgba(197, 232, 203, 0.88);
   border: 1px dashed rgba(22, 40, 30, 0.28);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -236,19 +173,19 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.45rem;
 }
 
 .note-avatar-circle {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 1.5px solid var(--color-ink);
+  border: 1.2px solid var(--color-ink);
   background: var(--color-pastel-mint-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   flex-shrink: 0;
   box-shadow: 1px 1px 0px var(--color-ink);
 }
@@ -256,6 +193,10 @@
 .note-author-meta {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .note-author-name {
@@ -273,7 +214,7 @@
   font-size: 0.68rem;
   color: var(--color-ink-light);
   font-weight: 600;
-  line-height: 1.1;
+  flex-shrink: 0;
 }
 
 /* Note Message Text */
@@ -281,7 +222,7 @@
   font-size: 0.84rem;
   line-height: 1.45;
   color: var(--color-ink);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.55rem;
   white-space: pre-line;
   word-break: break-word;
 }
@@ -291,7 +232,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.45rem;
+  padding-top: 0.4rem;
   border-top: 1px dashed rgba(22, 40, 30, 0.12);
   margin-top: auto;
 }
@@ -340,6 +281,54 @@
   fill: #BE123C;
   color: #BE123C;
   animation: heartBeat 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- Clean Pagination Controls --- */
+.guestbook-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.btn-page-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+.btn-page-nav:hover:not(:disabled) {
+  background: var(--color-neobong-neon);
+  transform: translateY(-1px);
+}
+
+.btn-page-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  background: #EAEAEA;
+}
+
+.pagination-page-indicator {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-ink);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
 }
 
 /* ==========================================================================
@@ -525,7 +514,7 @@
 @keyframes notePopIn {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(12px);
+    transform: scale(0.95) translateY(8px);
   }
   to {
     opacity: 1;

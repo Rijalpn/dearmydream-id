@@ -1,38 +1,29 @@
 /**
  * GUESTBOOK / DREAM NOTES MODULE
- * Lightweight, cute, swipeable horizontal card track with localStorage & likes
+ * Max 3 Cards Stacked Vertically with Clean Button-Driven Pagination
  */
 
-const STORAGE_KEY = 'dearmydream_guestbook_notes_v3';
-const LIKES_KEY = 'dearmydream_guestbook_likes_v3';
+const STORAGE_KEY = 'dearmydream_guestbook_notes_v4';
+const LIKES_KEY = 'dearmydream_guestbook_likes_v4';
+const PAGE_SIZE = 3;
 
 const WASHI_OPTIONS = ['', 'washi-yellow', 'washi-orange', 'washi-pink', 'washi-blue'];
 
+let currentPage = 1;
+
 export function initGuestbook() {
-  const trackContainer = document.getElementById('guestbook-track');
+  const feedContainer = document.getElementById('guestbook-feed');
   const triggerBtn = document.getElementById('btn-open-guestbook-modal');
   const modalBackdrop = document.getElementById('guestbook-modal');
   const closeModalBtn = document.getElementById('guestbook-modal-close');
   const form = document.getElementById('guestbook-form');
-  const prevBtn = document.getElementById('notes-prev-btn');
-  const nextBtn = document.getElementById('notes-next-btn');
 
-  if (!trackContainer) return;
+  if (!feedContainer) return;
 
   // Render stored notes (starts empty if none)
   const notes = getStoredNotes();
   renderNotes(notes);
   updateCounter(notes.length);
-
-  // Setup Arrow Controls
-  if (prevBtn && nextBtn) {
-    prevBtn.addEventListener('click', () => {
-      trackContainer.scrollBy({ left: -280, behavior: 'smooth' });
-    });
-    nextBtn.addEventListener('click', () => {
-      trackContainer.scrollBy({ left: 280, behavior: 'smooth' });
-    });
-  }
 
   // Setup modal open
   if (triggerBtn && modalBackdrop) {
@@ -108,14 +99,11 @@ function saveLikedNotes(likedMap) {
 }
 
 function renderNotes(notes) {
-  const track = document.getElementById('guestbook-track');
-  const sliderNav = document.getElementById('guestbook-slider-nav');
-  if (!track) return;
+  const feed = document.getElementById('guestbook-feed');
+  if (!feed) return;
 
   if (notes.length === 0) {
-    if (sliderNav) sliderNav.style.display = 'none';
-    track.className = 'memory-wall-track centered';
-    track.innerHTML = `
+    feed.innerHTML = `
       <div class="empty-guestbook-box">
         <div class="empty-guestbook-icon">💌</div>
         <div class="empty-guestbook-title">Belum ada Dream Note yang ditulis</div>
@@ -125,18 +113,16 @@ function renderNotes(notes) {
     return;
   }
 
-  // Toggle slider nav arrows
-  if (sliderNav) {
-    sliderNav.style.display = notes.length > 2 ? 'flex' : 'none';
-  }
+  const totalPages = Math.ceil(notes.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
 
-  // If 1 or 2 notes, center them
-  track.className = notes.length <= 2 ? 'memory-wall-track centered' : 'memory-wall-track';
-
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const visibleNotes = notes.slice(startIndex, startIndex + PAGE_SIZE);
   const likedMap = getLikedNotes();
 
-  track.innerHTML = notes.map(note => {
-    const isLiked = !!likedMap[note.id];
+  const cardsHtml = visibleNotes.map(note => {
+    const isLiked = !likedMap[note.id];
 
     return `
       <article class="memo-note-card" id="note-card-${note.id}">
@@ -172,14 +158,55 @@ function renderNotes(notes) {
     `;
   }).join('');
 
+  const paginationHtml = totalPages > 1 ? `
+    <div class="guestbook-pagination">
+      <button type="button" id="gb-prev-page" class="btn-page-nav" ${currentPage === 1 ? 'disabled' : ''} aria-label="Halaman sebelumnya">
+        <span>‹</span> <span>Sebelumnya</span>
+      </button>
+      <span class="pagination-page-indicator">${currentPage} / ${totalPages}</span>
+      <button type="button" id="gb-next-page" class="btn-page-nav" ${currentPage === totalPages ? 'disabled' : ''} aria-label="Halaman selanjutnya">
+        <span>Selanjutnya</span> <span>›</span>
+      </button>
+    </div>
+  ` : '';
+
+  feed.innerHTML = `
+    <div class="guestbook-vertical-list">
+      ${cardsHtml}
+    </div>
+    ${paginationHtml}
+  `;
+
   // Attach like button click listeners
-  track.querySelectorAll('.btn-note-like').forEach(btn => {
+  feed.querySelectorAll('.btn-note-like').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const noteId = btn.getAttribute('data-note-id');
       handleLikeClick(noteId, btn);
     });
   });
+
+  // Attach pagination listeners
+  const prevPageBtn = document.getElementById('gb-prev-page');
+  const nextPageBtn = document.getElementById('gb-next-page');
+
+  if (prevPageBtn) {
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderNotes(getStoredNotes());
+      }
+    });
+  }
+
+  if (nextPageBtn) {
+    nextPageBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderNotes(getStoredNotes());
+      }
+    });
+  }
 }
 
 function handleLikeClick(noteId, btnElement) {
@@ -190,12 +217,10 @@ function handleLikeClick(noteId, btnElement) {
   if (!targetNote) return;
 
   if (likedMap[noteId]) {
-    // Unlike
     delete likedMap[noteId];
     targetNote.likes = Math.max(0, (targetNote.likes || 1) - 1);
     btnElement.classList.remove('liked');
   } else {
-    // Like
     likedMap[noteId] = true;
     targetNote.likes = (targetNote.likes || 0) + 1;
     btnElement.classList.add('liked');
@@ -265,22 +290,14 @@ function handleFormSubmit(e) {
   notes.unshift(newNote);
   saveStoredNotes(notes);
 
-  // Re-render
+  currentPage = 1; // Always show first page with newly created note
   renderNotes(notes);
   updateCounter(notes.length);
 
-  // Close modal and reset form
   closeGuestbookModal();
   e.target.reset();
 
-  // Show Toast
-  showToast('Dream Note berhasil ditempel! 💚✨');
-
-  // Scroll to track start
-  const track = document.getElementById('guestbook-track');
-  if (track) {
-    track.scrollTo({ left: 0, behavior: 'smooth' });
-  }
+  showToast('Dream Note berhasil dikirim! 💚✨');
 }
 
 function openGuestbookModal() {
