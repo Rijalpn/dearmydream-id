@@ -223,19 +223,19 @@ async function handleAdminDelete(noteId, author) {
   const confirmed = confirm(`Hapus pesan dari "${author}" secara permanen?`);
   if (!confirmed) return;
 
-  try {
-    await deleteDoc(doc(db, 'guestbook', noteId));
-    showToast('Pesan berhasil dihapus dari cloud database! 🗑️✨');
-  } catch (e) {
-    console.warn('Delete error:', e);
-    showToast('Pesan berhasil dihapus! 🗑️');
-  }
-
+  // 1. Instant local removal (0ms UI feedback)
   if (onNotesChangedCallback) {
     onNotesChangedCallback(noteId);
   }
-
   renderAdminPanelList();
+  showToast('Pesan berhasil dihapus! 🗑️✨');
+
+  // 2. Sync deletion to cloud Firestore
+  try {
+    await deleteDoc(doc(db, 'guestbook', noteId));
+  } catch (e) {
+    console.warn('Firestore cloud sync delete notice:', e.message);
+  }
 }
 
 function showToast(msg) {
