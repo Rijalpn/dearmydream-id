@@ -1,7 +1,7 @@
 /**
  * GUESTBOOK / DREAM NOTES MODULE WITH FIREBASE FIRESTORE REALTIME SYNC
  * Project: dearmydream-id-2026
- * Supports live multi-device sync, likes, and Admin PIN deletion (/admin)
+ * Supports live multi-device sync, likes, and Admin PIN moderation (/admin)
  */
 
 import { 
@@ -18,7 +18,7 @@ import {
   serverTimestamp 
 } from './firebase-config.js';
 
-import { isAdmin } from './admin.js';
+import { renderAdminPanelList } from './admin.js';
 
 const LOCAL_STORAGE_KEY = 'dearmydream_guestbook_local_cache';
 const LIKES_KEY = 'dearmydream_guestbook_liked_ids';
@@ -81,8 +81,15 @@ export function initGuestbook() {
   }
 }
 
-export function refreshGuestbookView() {
+export function getCurrentNotes() {
+  return currentNotes;
+}
+
+export function removeNoteLocally(noteId) {
+  currentNotes = currentNotes.filter(n => n.id !== noteId);
+  saveLocalCache(currentNotes);
   renderNotes(currentNotes);
+  updateCounter(currentNotes.length);
 }
 
 function connectFirestore() {
@@ -109,12 +116,13 @@ function connectFirestore() {
       saveLocalCache(currentNotes);
       renderNotes(currentNotes);
       updateCounter(currentNotes.length);
+      renderAdminPanelList();
     }, (error) => {
       console.warn('Firestore realtime notice (using local cache mode):', error.message);
-      // Seamlessly keep running on local cache
       currentNotes = getLocalCache();
       renderNotes(currentNotes);
       updateCounter(currentNotes.length);
+      renderAdminPanelList();
     });
   } catch (err) {
     console.warn('Firestore init fallback to local cache:', err);
@@ -173,7 +181,6 @@ function renderNotes(notes) {
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const visibleNotes = notes.slice(startIndex, startIndex + PAGE_SIZE);
   const likedMap = getLikedMap();
-  const adminActive = isAdmin();
 
   const cardsHtml = visibleNotes.map(note => {
     const isLiked = !!likedMap[note.id];
@@ -197,18 +204,7 @@ function renderNotes(notes) {
         </div>
 
         <div class="note-footer-row">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span class="note-stamp-tag">💌 Dream Note</span>
-            ${adminActive ? `
-              <button type="button" class="btn-note-delete" data-note-id="${note.id}" data-author="${escapeHtml(note.author)}" title="Hapus pesan ini (Admin)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="3 6 5 6 21 6"></polyline>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                </svg>
-                <span>Hapus</span>
-              </button>
-            ` : ''}
-          </div>
+          <span class="note-stamp-tag">💌 Dream Note</span>
           
           <button type="button" class="btn-note-like ${isLiked ? 'liked' : ''}" 
                   data-note-id="${note.id}" 
@@ -251,16 +247,6 @@ function renderNotes(notes) {
     });
   });
 
-  // Attach Admin delete listeners
-  feed.querySelectorAll('.btn-note-delete').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const noteId = btn.getAttribute('data-note-id');
-      const author = btn.getAttribute('data-author');
-      handleDeleteClick(noteId, author);
-    });
-  });
-
   // Attach pagination listeners
   const prevPageBtn = document.getElementById('gb-prev-page');
   const nextPageBtn = document.getElementById('gb-next-page');
@@ -289,17 +275,14 @@ async function handleLikeClick(noteId, btnElement) {
   const isAlreadyLiked = !!likedMap[noteId];
 
   if (isAlreadyLiked) {
-    // Unlike locally
     delete likedMap[noteId];
     saveLikedMap(likedMap);
     btnElement.classList.remove('liked');
     
-    // Decrement in Firestore
     try {
       const noteRef = doc(db, 'guestbook', noteId);
       await updateDoc(noteRef, { likes: increment(-1) });
     } catch (e) {
-      // Local fallback
       const target = currentNotes.find(n => n.id === noteId);
       if (target) {
         target.likes = Math.max(0, (target.likes || 1) - 1);
@@ -308,18 +291,15 @@ async function handleLikeClick(noteId, btnElement) {
       }
     }
   } else {
-    // Like
     likedMap[noteId] = true;
     saveLikedMap(likedMap);
     btnElement.classList.add('liked');
     createHeartSparkle(btnElement);
 
-    // Increment in Firestore
     try {
       const noteRef = doc(db, 'guestbook', noteId);
       await updateDoc(noteRef, { likes: increment(1) });
     } catch (e) {
-      // Local fallback
       const target = currentNotes.find(n => n.id === noteId);
       if (target) {
         target.likes = (target.likes || 0) + 1;
@@ -327,24 +307,6 @@ async function handleLikeClick(noteId, btnElement) {
         renderNotes(currentNotes);
       }
     }
-  }
-}
-
-async function handleDeleteClick(noteId, author) {
-  const confirmed = confirm(`Hapus pesan dari "${author}" secara permanen?`);
-  if (!confirmed) return;
-
-  try {
-    // Delete from Firestore
-    await deleteDoc(doc(db, 'guestbook', noteId));
-    showToast('Pesan berhasil dihapus dari cloud! 🗑️✨');
-  } catch (e) {
-    console.warn('Firestore delete error, removing from local cache:', e);
-    currentNotes = currentNotes.filter(n => n.id !== noteId);
-    saveLocalCache(currentNotes);
-    renderNotes(currentNotes);
-    updateCounter(currentNotes.length);
-    showToast('Pesan berhasil dihapus! 🗑️');
   }
 }
 
@@ -400,12 +362,10 @@ async function handleFormSubmit(e) {
   e.target.reset();
 
   try {
-    // Send to Firestore
     await addDoc(collection(db, 'guestbook'), newDoc);
     showToast('Dream Note berhasil terkirim ke publik! 💚✨');
   } catch (err) {
     console.warn('Firestore addDoc error, saving locally:', err);
-    // Local fallback
     const localNote = {
       id: `local-${Date.now()}`,
       author: author,
@@ -420,6 +380,7 @@ async function handleFormSubmit(e) {
     currentPage = 1;
     renderNotes(currentNotes);
     updateCounter(currentNotes.length);
+    renderAdminPanelList();
     showToast('Dream Note berhasil ditempel! 💚✨');
   }
 }
