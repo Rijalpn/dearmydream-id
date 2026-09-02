@@ -353,7 +353,7 @@ async function handleFormSubmit(e) {
   const newDoc = {
     author: author,
     message: message,
-    likes: 1,
+    likes: 0,
     washiClass: randomWashi,
     createdAt: serverTimestamp()
   };
@@ -370,7 +370,7 @@ async function handleFormSubmit(e) {
       id: `local-${Date.now()}`,
       author: author,
       message: message,
-      likes: 1,
+      likes: 0,
       washiClass: randomWashi,
       timeAgo: 'Baru saja',
       createdAtMs: Date.now()

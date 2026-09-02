@@ -22,6 +22,13 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, input, textarea, select {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
