@@ -18,11 +18,7 @@ export const eventsArchive = [
     handwrittenNote: "Cornerstone Paskal • Pajama Vibe 💚",
     coverImage: "/events/dear_dream_pajama_party_official.jpg",
     gallery: [
-      { src: "/events/dear_dream_pajama_party_official.jpg", caption: "Poster Resmi The Sweet Dream Hotel (Pajama Party)" },
-      { src: "/events/pajama_party_dresscode.jpg", caption: "Panduan Dresscode: Daster & Piyama" },
-      { src: "/events/pajama_party_goodies.jpg", caption: "Goodies & Starter Pack Preview" },
-      { src: "/events/photobooth_bobbliss.jpg", caption: "Bobbliss Photobooth Collaboration" },
-      { src: "/events/freebies_pillow_charm.jpg", caption: "Freebies: Bantalan Duduk & Bag Charm" }
+      { src: "/events/dear_dream_pajama_party_official.jpg", caption: "Poster Resmi The Sweet Dream Hotel (Pajama Party)" }
     ],
     details: {
       location: "Cornerstone Classroom, Paskal Hyper Square, Bandung",
