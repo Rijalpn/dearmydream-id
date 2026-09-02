@@ -1,24 +1,13 @@
 /**
  * MINI VINYL BGM PLAYER MODULE
- * YouTube Audio Player with Playlist (UNKNOWN, BOOM, CANDY)
- * Features: Next, Prev, Play/Pause, Mute, and Auto-Advance
+ * YouTube Audio Player: Dear DREAM — NCT DREAM (Video ID: 4j_HQoJOeTg)
  */
 
 const PLAYLIST = [
   {
-    title: 'UNKNOWN',
+    title: 'Dear DREAM',
     artist: 'NCT DREAM',
-    videoId: 'UgVPGQMLP5s'
-  },
-  {
-    title: 'BOOM',
-    artist: 'NCT DREAM',
-    videoId: 'X-iJZ0gfKPo'
-  },
-  {
-    title: 'CANDY',
-    artist: 'NCT DREAM',
-    videoId: 'zuoSn3ObMz4'
+    videoId: '4j_HQoJOeTg'
   }
 ];
 
@@ -41,7 +30,7 @@ export function initAudioPlayer() {
     ytPlayer = new window.YT.Player('yt-bgm-embed', {
       height: '1',
       width: '1',
-      videoId: PLAYLIST[currentTrackIndex].videoId,
+      videoId: PLAYLIST[0].videoId,
       playerVars: {
         autoplay: 0,
         controls: 0,
@@ -52,7 +41,7 @@ export function initAudioPlayer() {
       events: {
         onReady: () => {
           isPlayerReady = true;
-          console.log('🎵 7Dream BGM Player Ready!');
+          console.log('🎵 Dear DREAM BGM Player Ready!');
         },
         onStateChange: (event) => {
           if (event.data === window.YT.PlayerState.PLAYING) {
@@ -60,8 +49,11 @@ export function initAudioPlayer() {
           } else if (event.data === window.YT.PlayerState.PAUSED) {
             setPlayState(false);
           } else if (event.data === window.YT.PlayerState.ENDED) {
-            // Auto advance to next song
-            nextTrack(true);
+            // Loop replay for continuous ambiance
+            if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+              ytPlayer.seekTo(0);
+              ytPlayer.playVideo();
+            }
           }
         }
       }
@@ -109,11 +101,21 @@ function bindPlayerControls() {
   }
 
   if (prevBtn) {
-    prevBtn.addEventListener('click', () => prevTrack(isPlaying));
+    prevBtn.addEventListener('click', () => {
+      if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+        ytPlayer.seekTo(0);
+        if (!isPlaying) togglePlayback();
+      }
+    });
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener('click', () => nextTrack(isPlaying));
+    nextBtn.addEventListener('click', () => {
+      if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+        ytPlayer.seekTo(0);
+        if (!isPlaying) togglePlayback();
+      }
+    });
   }
 
   if (muteBtn) {
@@ -136,39 +138,15 @@ export function togglePlayback() {
   }
 }
 
-export function nextTrack(autoPlay = true) {
-  currentTrackIndex = (currentTrackIndex + 1) % PLAYLIST.length;
-  loadActiveTrack(autoPlay);
-}
-
-export function prevTrack(autoPlay = true) {
-  currentTrackIndex = (currentTrackIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
-  loadActiveTrack(autoPlay);
-}
-
-function loadActiveTrack(autoPlay = true) {
-  updateTrackDisplay();
-  const track = PLAYLIST[currentTrackIndex];
-
-  if (isPlayerReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-    if (autoPlay) {
-      ytPlayer.loadVideoById(track.videoId);
-      setPlayState(true);
-    } else {
-      ytPlayer.cueVideoById(track.videoId);
-    }
-  }
-}
-
 function updateTrackDisplay() {
-  const track = PLAYLIST[currentTrackIndex];
+  const track = PLAYLIST[0];
   const titleEl = document.getElementById('vinyl-track-title');
   const artistEl = document.getElementById('vinyl-track-artist');
   const tagEl = document.getElementById('vinyl-track-counter');
 
   if (titleEl) titleEl.textContent = track.title;
   if (artistEl) artistEl.textContent = track.artist;
-  if (tagEl) tagEl.textContent = `🎵 ${currentTrackIndex + 1}/${PLAYLIST.length}`;
+  if (tagEl) tagEl.textContent = `🎵 Official BGM`;
 }
 
 function toggleMute() {

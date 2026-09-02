@@ -8,7 +8,7 @@ export const eventsArchive = [
     id: "dear-dream-pajama-party",
     category: "dream",
     title: "Dear Dream: Pajama Party",
-    subtitle: "10th Dreamversary & Birthday Celebration",
+    subtitle: "10th Dreamversary & Birthday Mark Jaemin (10th anniversary & Birthday Mark Lee and Jaemin)",
     edition: "Vol. 02 • Bandung",
     dateFormatted: "23 Agustus 2026 (17.00 WIB)",
     tagText: "🌙 10th Dreamversary",
@@ -42,20 +42,32 @@ export const eventsArchive = [
         "Sticker ID Member",
         "Photocard Edisi Khusus"
       ],
-      sponsors: ["@Axellagift", "@mjmarketofficial", "@segigit.joy"],
+      sponsors: [
+        "@Axellagift",
+        "@mjmarketofficial",
+        "@segigit.joy"
+      ],
       mediaPartners: [
-        "@marklee_archives", "@jaeminpage_1308", "@Jaeminieya",
-        "@hrenjun2300_", "@Jenohottes_", "@Haechaniee.06",
-        "@jisung.archivess", "@Nctdreamstation", "@nctzone.idn",
-        "@kpopersjabar", "@tukangulin_bandung", "@Fyidreamies.id"
+        "@marklee_archives",
+        "@jaeminpage_1308",
+        "@Jaeminieya",
+        "@hrenjun2300_",
+        "@Jenohottes_",
+        "@Haechaniee.06",
+        "@jisung.archivess",
+        "@Nctdreamstation",
+        "@nctzone.idn",
+        "@kpopersjabar",
+        "@tukangulin_bandung",
+        "@Fyidreamies.id"
       ]
     }
   },
   {
     id: "dear-mark-always-been-mark",
     category: "mark",
-    title: "Dear Mark, Always Been Mark",
-    subtitle: "Mark Lee Birthday Project & Gathering",
+    title: "Dear Mark : Always Been Mark",
+    subtitle: "Project for Mark Lee",
     edition: "Vol. 01 • Bandung",
     dateFormatted: "6 June 2026",
     tagText: "🐯 Mark Birthday Gathering",
@@ -72,7 +84,7 @@ export const eventsArchive = [
     details: {
       location: "Kolato Cijagra, Kota Bandung",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kolato+Cijagra+Kota+Bandung",
-      dresscode: "Casual Chic / Touch of Neo Lime",
+      dresscode: "Vintage / Earth Tone",
       activities: [
         "Nobar Dokumenter & Konser Mark Lee",
         "Sing A Long Party Lagu Solo & Dream",
@@ -86,10 +98,19 @@ export const eventsArchive = [
         "Paket Meal & Drink",
         "Kupon Doorprize"
       ],
-      sponsors: ["@mjmarketofficial", "DearMyDream Team"],
+      sponsors: [
+        "@naur.pnkan",
+        "@mjmarketofficial"
+      ],
       mediaPartners: [
-        "@marklee_archives", "@eventbandung", "@kpopersjabar",
-        "@tulinproject", "@parapegiatevent", "@noraezen", "@nctzone.idn"
+        "@noraezenbdg",
+        "@eventbandungid",
+        "@nctzenbandung",
+        "@kpopersjabar",
+        "@marklee_archives",
+        "@tukangulin_bandung",
+        "@papebandung",
+        "@nctzone.idn"
       ]
     }
   }
@@ -101,6 +122,7 @@ export const siteConfig = {
   baseCity: "Bandung, Indonesia",
   instagramHandle: "dear_mydream.id",
   instagramUrl: "https://www.instagram.com/dear_mydream.id/",
-  whatsappGroupUrl: "https://chat.whatsapp.com/IzcYyRyf8Xt1TnNPyk9Dao?s=cl&p=a&mlu=2",
-  collaborationWaUrl: "https://wa.me/6281234567890?text=Halo%20Admin%20DearMyDream%2C%20saya%20tertarik%20untuk%20kolaborasi%20%2F%20sponsorship%20event."
+  whatsappGroupUrl: "https://chat.whatsapp.com/FL4C9g0M3kG1ihwpllm3jb?s=cl&p=a&mlu=4",
+  mediaPartnerWaUrl: "https://wa.me/6281224795582?text=Halo%20Admin%20DearMyDream%2C%20kami%20tertarik%20untuk%20kerja%20sama%20sebagai%20Media%20Partner.",
+  sponsorWaUrl: "https://wa.me/6281224795582?text=Halo%20Admin%20DearMyDream%2C%20kami%20tertarik%20untuk%20kerja%20sama%20Sponsorship%20event."
 };

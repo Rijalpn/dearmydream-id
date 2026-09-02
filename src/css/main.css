@@ -167,21 +167,63 @@ body {
   box-shadow: 2px 2px 0px var(--color-ink);
 }
 
+/* Hero Description & Quote Card */
+.hero-description-block {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
 .hero-subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-size: clamp(0.92rem, 1.8vw, 1.05rem);
+  font-weight: 500;
+  color: var(--color-ink-muted);
+  line-height: 1.65;
+  margin-bottom: 0;
+  max-width: 680px;
+}
+
+.hero-subtitle strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.hero-quote-card {
+  background: rgba(209, 247, 55, 0.15);
+  border-left: 4px solid var(--color-neobong-neon);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.65rem 0.95rem;
+  max-width: 680px;
+}
+
+.hero-quote-tag {
+  font-family: var(--font-handwritten);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 0.2rem;
+}
+
+.hero-quote-text {
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--color-ink-muted);
-  line-height: 1.6;
-  margin-bottom: 1.75rem;
-  max-width: 680px;
+  line-height: 1.45;
+  margin: 0;
 }
 
 /* Quick CTA Button Group */
 .hero-cta-group {
   display: flex;
-  align-items: center;
-  gap: 0.85rem;
+  align-items: stretch;
+  gap: 0.65rem;
   flex-wrap: wrap;
+}
+
+.hero-cta-group .btn {
+  flex: 1 1 auto;
+  justify-content: center;
 }
 
 /* --- Aesthetic Scrapbook Memo Ticket --- */

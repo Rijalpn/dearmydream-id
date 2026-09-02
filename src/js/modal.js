@@ -142,13 +142,23 @@ export function openModal(eventData) {
       </div>
     </div>
 
-    <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 2px dashed rgba(22, 40, 30, 0.15);">
-      <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--color-ink-light); margin-bottom: 0.4rem;">🤝 Sponsor & Media Partner</h4>
-      <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-        ${sponsorsHtml}
-        ${mediaPartnersHtml}
+    ${eventData.details.sponsors && eventData.details.sponsors.length > 0 ? `
+      <div style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 2px dashed rgba(22, 40, 30, 0.15);">
+        <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--color-ink-light); margin-bottom: 0.4rem;">🌟 Official Sponsors</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+          ${sponsorsHtml}
+        </div>
       </div>
-    </div>
+    ` : ''}
+
+    ${eventData.details.mediaPartners && eventData.details.mediaPartners.length > 0 ? `
+      <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 2px dashed rgba(22, 40, 30, 0.15);">
+        <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--color-ink-light); margin-bottom: 0.4rem;">📢 Media Partners</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+          ${mediaPartnersHtml}
+        </div>
+      </div>
+    ` : ''}
 
     <!-- Convenient Bottom Close Button for Mobile -->
     <div style="margin-top: 1.5rem; text-align: center;">
