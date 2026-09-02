@@ -1,0 +1,523 @@
+/* ==========================================================================
+   GUESTBOOK / YOUTH MEMORY WALL STYLING
+   Scrapbook Sticky Notes, Interactive Modal, and Micro-interactions
+   ========================================================================== */
+
+.guestbook-section {
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+  position: relative;
+  background: var(--color-bg-canvas);
+  border-top: 2px dashed rgba(22, 40, 30, 0.15);
+}
+
+.guestbook-header-box {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(2rem, 4vw, 3rem) auto;
+}
+
+.guestbook-stats-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--color-bg-card);
+  border: var(--border-thin);
+  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 0.85rem;
+}
+
+.guestbook-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+  font-weight: 900;
+  color: var(--color-ink);
+  line-height: 1.15;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.02em;
+}
+
+.guestbook-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.guestbook-cta-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-guestbook-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: var(--color-neobong-neon);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0.9rem 1.85rem;
+  border-radius: var(--radius-full);
+  border: var(--border-med);
+  box-shadow: var(--shadow-neo);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-guestbook-trigger:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0px var(--color-ink);
+  background: #D4FF22;
+}
+
+.btn-guestbook-trigger:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--color-ink);
+}
+
+/* --- Memory Wall Grid (Masonry / Responsive Grid) --- */
+.memory-wall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 1.85rem);
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .memory-wall-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Individual Scrapbook Memo Card --- */
+.memo-note-card {
+  background: #FFFFFF;
+  border: var(--border-med);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-neo);
+  padding: 1.5rem 1.35rem 1.25rem 1.35rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  animation: notePopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.memo-note-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 6px 6px 0px var(--color-ink);
+}
+
+/* Dynamic tilts for natural scrapbook feel */
+.memo-note-card[data-tilt="left"] {
+  transform: rotate(-1.2deg);
+}
+.memo-note-card[data-tilt="left"]:hover {
+  transform: translateY(-5px) rotate(-0.5deg) scale(1.02);
+}
+
+.memo-note-card[data-tilt="right"] {
+  transform: rotate(1.2deg);
+}
+.memo-note-card[data-tilt="right"]:hover {
+  transform: translateY(-5px) rotate(0.5deg) scale(1.02);
+}
+
+.memo-note-card[data-tilt="straight"] {
+  transform: rotate(0deg);
+}
+.memo-note-card[data-tilt="straight"]:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* Washi tape accents */
+.note-washi {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  background: rgba(197, 232, 203, 0.85);
+  border: 1px dashed rgba(22, 40, 30, 0.35);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.note-washi.washi-yellow { background: rgba(254, 240, 138, 0.85); }
+.note-washi.washi-orange { background: rgba(254, 215, 170, 0.85); }
+.note-washi.washi-pink   { background: rgba(251, 207, 232, 0.85); }
+.note-washi.washi-blue   { background: rgba(186, 230, 253, 0.85); }
+
+/* Note Card Author Row */
+.note-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.note-avatar-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-ink);
+  background: var(--color-pastel-mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 1px 1px 0px var(--color-ink);
+}
+
+.note-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.note-author-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.note-author-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.note-event-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-ink-light);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 1px;
+}
+
+/* Note Message Text */
+.note-message-body {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+  margin-bottom: 1rem;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.note-handwritten-sign {
+  font-family: var(--font-handwritten);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #3B6B48;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Note Card Footer with Interactive Heart */
+.note-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(22, 40, 30, 0.15);
+  margin-top: auto;
+}
+
+.note-time-text {
+  font-size: 0.72rem;
+  color: var(--color-ink-light);
+  font-weight: 600;
+}
+
+.btn-note-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.btn-note-like:hover {
+  background: #FEE2E2;
+  transform: scale(1.08);
+}
+
+.btn-note-like.liked {
+  background: #FECDD3;
+  color: #BE123C;
+  border-color: #BE123C;
+  box-shadow: 1px 1px 0px #BE123C;
+}
+
+.btn-note-like.liked svg {
+  fill: #BE123C;
+  color: #BE123C;
+  animation: heartBeat 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- Interactive Guestbook Submission Modal --- */
+.guestbook-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 28, 20, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.guestbook-modal-backdrop.active {
+  display: flex;
+}
+
+.guestbook-modal-card {
+  background: var(--color-bg-canvas);
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  box-shadow: 8px 8px 0px var(--color-ink);
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  padding: clamp(1.25rem, 3vw, 1.85rem);
+  box-sizing: border-box;
+  animation: modalPopUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.guestbook-form-group {
+  margin-bottom: 1.15rem;
+}
+
+.guestbook-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.guestbook-input,
+.guestbook-textarea {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  box-sizing: border-box;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.guestbook-input:focus,
+.guestbook-textarea:focus {
+  border-color: var(--color-ink);
+  box-shadow: 3px 3px 0px var(--color-neobong-neon);
+  background: #FAFFFA;
+}
+
+.guestbook-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Bias Avatar Picker Row */
+.bias-picker-grid {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bias-picker-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: #FFFFFF;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.55rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+.bias-picker-btn img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--color-pastel-mint);
+}
+
+.bias-picker-btn span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+.bias-picker-btn.selected {
+  background: var(--color-neobong-neon);
+  border-color: var(--color-ink);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  transform: translateY(-2px);
+}
+
+/* Event Tag Selection Chips */
+.event-tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.event-tag-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-full);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.event-tag-btn.selected {
+  background: var(--color-pastel-mint);
+  border-color: var(--color-ink);
+  box-shadow: 2px 2px 0px var(--color-ink);
+  font-weight: 800;
+}
+
+/* Form Submit Button */
+.btn-guestbook-submit {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: var(--color-neobong-neon);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  border: var(--border-med);
+  border-radius: var(--radius-full);
+  box-shadow: 3px 3px 0px var(--color-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+  margin-top: 1.25rem;
+}
+
+.btn-guestbook-submit:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--color-ink);
+  background: #D4FF22;
+}
+
+.btn-guestbook-submit:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--color-ink);
+}
+
+/* Toast Success Notification */
+.guestbook-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--color-ink);
+  color: #FFFFFF;
+  border: 2px solid var(--color-neobong-neon);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1200;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.guestbook-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Keyframes */
+@keyframes notePopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalPopUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}

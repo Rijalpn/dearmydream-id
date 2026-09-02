@@ -8,6 +8,7 @@
 @import './preloader.css';
 @import './sparkles.css';
 @import './player.css';
+@import './guestbook.css';
 
 /* --- Base & Reset --- */
 *, *::before, *::after {

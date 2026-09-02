@@ -325,6 +325,43 @@
         </div>
       </div>
     </section>
+
+    <!-- Scrapbook Youth Memory Wall (Kesan & Pesan) Section -->
+    <section id="guestbook" class="guestbook-section">
+      <div class="container">
+        
+        <div class="guestbook-header-box">
+          <div class="guestbook-stats-pill">
+            <span class="pulse-dot"></span>
+            <span id="guestbook-total-counter">✨ 6+ Cerita Terkumpul</span>
+          </div>
+
+          <h2 class="guestbook-title">
+            Kesan & Pesan Teman Dreamzen 💌
+          </h2>
+          
+          <p class="guestbook-subtitle">
+            Punya cerita seru pas ikut event atau mau kirim pesan cinta buat 7Dream & DearMyDream? Tuliskan jejak memori manismu di sini! ✨
+          </p>
+
+          <div class="guestbook-cta-wrap">
+            <button id="btn-open-guestbook-modal" class="btn-guestbook-trigger" aria-label="Buka Form Tulis Kesan dan Pesan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+              <span>Tulis Kesan & Pesanmu ✨</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrapbook Memo Notes Masonry Grid Deck -->
+        <div id="guestbook-grid" class="memory-wall-grid" aria-live="polite">
+          <!-- Dynamically injected via guestbook.js -->
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <!-- Site Footer -->
@@ -440,6 +477,97 @@
       <span id="zoom-level-badge" class="zoom-level-indicator">100%</span>
       <button id="zoom-in-btn" class="btn-zoom-action" title="Perbesar (+)">+</button>
       <button id="zoom-reset-btn" class="btn-zoom-action" style="font-size: 0.8rem; border-radius: 999px; width: auto; padding: 0 10px;" title="Reset Zoom">Reset</button>
+    </div>
+  </div>
+
+  <!-- Interactive Scrapbook Guestbook Submission Modal -->
+  <div id="guestbook-modal" class="guestbook-modal-backdrop" role="dialog" aria-modal="true" aria-label="Tulis Kesan dan Pesan">
+    <div class="guestbook-modal-card">
+      <div class="note-washi washi-yellow" aria-hidden="true"></div>
+
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem;">
+        <div>
+          <span class="badge-pill badge-live" style="margin-bottom: 0.35rem;">💌 Youth Memory Note</span>
+          <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; color: var(--color-ink); margin: 0;">
+            Tulis Kesan & Pesanmu
+          </h3>
+        </div>
+
+        <button id="guestbook-modal-close" class="modal-close-btn" style="position: static; float: none;" aria-label="Tutup Form">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="guestbook-form">
+        <!-- Name / Nickname / Handle -->
+        <div class="guestbook-form-group">
+          <label for="guestbook-name-input" class="guestbook-label">Nama / Nickname Czennie ✨</label>
+          <input type="text" id="guestbook-name-input" class="guestbook-input" placeholder="Contoh: Caca MarkF / @nana_dreamies" required maxlength="50">
+        </div>
+
+        <!-- Bias Avatar Picker -->
+        <div class="guestbook-form-group">
+          <label class="guestbook-label">Pilih Karakter Bias Favorit 💚</label>
+          <div id="bias-picker-options" class="bias-picker-grid">
+            <button type="button" class="bias-picker-btn selected" data-bias="mark" title="Mark">
+              <img src="/chibi/mark.png" alt="Mark">
+              <span>Mark 🐯</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="renjun" title="Renjun">
+              <img src="/chibi/renjun.png" alt="Renjun">
+              <span>Renjun 🦊</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="jeno" title="Jeno">
+              <img src="/chibi/jeno.png" alt="Jeno">
+              <span>Jeno 🐶</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="haechan" title="Haechan">
+              <img src="/chibi/haechan.png" alt="Haechan">
+              <span>Haechan 🐻</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="jaemin" title="Jaemin">
+              <img src="/chibi/jaemin.png" alt="Jaemin">
+              <span>Jaemin 🐰</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="chenle" title="Chenle">
+              <img src="/chibi/chenle.png" alt="Chenle">
+              <span>Chenle 🐬</span>
+            </button>
+            <button type="button" class="bias-picker-btn" data-bias="jisung" title="Jisung">
+              <img src="/chibi/jisung.png" alt="Jisung">
+              <span>Jisung 🐹</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Tag Chips -->
+        <div class="guestbook-form-group">
+          <label class="guestbook-label">Event / Topik Cerita</label>
+          <div id="event-tag-options" class="event-tag-chips">
+            <button type="button" class="event-tag-btn selected" data-tag="🌙 Pajama Party">🌙 Pajama Party</button>
+            <button type="button" class="event-tag-btn" data-tag="🐯 Dear Mark 2026">🐯 Dear Mark 2026</button>
+            <button type="button" class="event-tag-btn" data-tag="✨ Kesan Komunitas">✨ Kesan Komunitas</button>
+            <button type="button" class="event-tag-btn" data-tag="💚 Harapan 7Dream">💚 Harapan 7Dream</button>
+          </div>
+        </div>
+
+        <!-- Message Body -->
+        <div class="guestbook-form-group">
+          <label for="guestbook-message-input" class="guestbook-label">Isi Kesan, Cerita, atau Pesanmu ✍️</label>
+          <textarea id="guestbook-message-input" class="guestbook-textarea" placeholder="Tuliskan cerita seru pas event, pengalaman dapet temen baru, atau ucapan hangatmu buat DearMyDream & NCT DREAM..." required maxlength="400"></textarea>
+        </div>
+
+        <!-- Handwritten Motto Signature (Optional) -->
+        <div class="guestbook-form-group">
+          <label for="guestbook-sign-input" class="guestbook-label">Motto / Kutipan Singkat (Opsional)</label>
+          <input type="text" id="guestbook-sign-input" class="guestbook-input" placeholder="Contoh: My Dream is My Youth ✨" maxlength="45">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-guestbook-submit">
+          <span>🚀 Tempel Pesan di Memory Wall ✨</span>
+        </button>
+      </form>
     </div>
   </div>
 

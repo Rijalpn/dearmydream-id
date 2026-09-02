@@ -7,6 +7,7 @@ import { initModal } from './modal.js';
 import { initPreloader } from './preloader.js';
 import { initSparkles } from './sparkles.js';
 import { initAudioPlayer } from './player.js';
+import { initGuestbook } from './guestbook.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🌿 DearMyDream.id Loaded Successfully!');
@@ -22,4 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Lightbox Modal & Zoom Viewer
   initModal();
+
+  // Initialize Scrapbook Youth Memory Wall (Kesan & Pesan)
+  initGuestbook();
 });
