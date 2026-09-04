@@ -1,18 +1,28 @@
 /**
- * 7DREAM YOUTH CAPSULE PRELOADER MODULE
- * Smooth loading animation featuring the 7 Chibis with progress bar & transition
+ * 7DREAM SPECIAL EDITION PHOTOCARD PRELOADER MODULE
+ * Smooth loading animation featuring 7Dream Photocard with holographic sweep & dynamic status
  */
 
 export function initPreloader() {
   const preloader = document.getElementById('site-preloader');
   const progressFill = document.getElementById('preloader-progress-fill');
   const progressPercent = document.getElementById('preloader-percent');
+  const statusText = document.getElementById('preloader-status-text');
 
   if (!preloader) return;
 
   let progress = 0;
   const startTime = Date.now();
-  const minDisplayTime = 1400; // 1.4s for delightful animation
+  const minDisplayTime = 1600; // 1.6s for aesthetic photocard & holo shine appreciation
+
+  const statusStages = [
+    { threshold: 0, text: 'Menyiapkan Ruang Kumpul...' },
+    { threshold: 30, text: 'Menghubungkan 7 Bintang Impian...' },
+    { threshold: 65, text: 'My Dream is My Youth ✨' },
+    { threshold: 92, text: 'Selamat Datang, Dreamzen! 🎉' }
+  ];
+
+  let currentStageText = statusStages[0].text;
 
   const updateProgress = () => {
     const elapsed = Date.now() - startTime;
@@ -24,6 +34,25 @@ export function initPreloader() {
 
       if (progressFill) progressFill.style.width = `${progress}%`;
       if (progressPercent) progressPercent.textContent = `${progress}%`;
+
+      // Update dynamic status message
+      for (let i = statusStages.length - 1; i >= 0; i--) {
+        if (progress >= statusStages[i].threshold) {
+          if (currentStageText !== statusStages[i].text) {
+            currentStageText = statusStages[i].text;
+            if (statusText) {
+              statusText.style.opacity = '0';
+              setTimeout(() => {
+                if (statusText) {
+                  statusText.textContent = currentStageText;
+                  statusText.style.opacity = '1';
+                }
+              }, 120);
+            }
+          }
+          break;
+        }
+      }
     }
 
     if (progress < 100) {
@@ -31,7 +60,7 @@ export function initPreloader() {
     } else {
       setTimeout(() => {
         dismissPreloader();
-      }, 250);
+      }, 300);
     }
   };
 
@@ -42,13 +71,13 @@ export function initPreloader() {
     document.body.classList.remove('is-loading');
     setTimeout(() => {
       preloader.remove();
-    }, 600);
+    }, 650);
   }
 
-  // Fail-safe auto dismiss after 2.5s maximum
+  // Fail-safe auto dismiss after 3.0s maximum
   setTimeout(() => {
     if (document.body.contains(preloader)) {
       dismissPreloader();
     }
-  }, 2500);
+  }, 3000);
 }

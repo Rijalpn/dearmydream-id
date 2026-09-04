@@ -1,6 +1,6 @@
 /* ==========================================================================
-   7DREAM YOUTH CAPSULE PRELOADER STYLES
-   Soft Neo-Brutalism x 7Dream Chibi Animation
+   7DREAM SPECIAL EDITION PHOTOCARD PRELOADER STYLES
+   Soft Neo-Brutalism x Holographic K-Pop Photocard Aesthetic
    ========================================================================== */
 
 body.is-loading {
@@ -13,118 +13,248 @@ body.is-loading {
   z-index: 99999;
   background-color: var(--color-bg-sage, #748C7B);
   background-image: 
-    radial-gradient(circle at 50% 30%, rgba(209, 247, 55, 0.18) 0%, transparent 40%),
-    radial-gradient(#566D5D 1.2px, transparent 1.2px);
+    radial-gradient(circle at 50% 38%, rgba(209, 247, 55, 0.25) 0%, transparent 60%),
+    radial-gradient(rgba(86, 109, 93, 0.75) 1.2px, transparent 1.2px);
   background-size: 100% 100%, 24px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 #site-preloader.preloader-fade-out {
   opacity: 0;
-  transform: scale(1.04);
+  transform: scale(1.06);
   pointer-events: none;
 }
 
-.preloader-card {
+/* Ambient Floating Sparkles */
+.preloader-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.p-sparkle {
+  position: absolute;
+  font-size: 1.5rem;
+  color: var(--color-neobong-neon, #D1F737);
+  filter: drop-shadow(0 0 6px rgba(209, 247, 55, 0.7));
+  animation: sparkleTwinkle 2.4s ease-in-out infinite alternate;
+}
+
+.p-sparkle.s-1 { top: 12%; left: 14%; animation-delay: 0s; font-size: 1.8rem; }
+.p-sparkle.s-2 { top: 18%; right: 16%; animation-delay: 0.6s; font-size: 1.4rem; color: #FFE873; }
+.p-sparkle.s-3 { bottom: 20%; left: 12%; animation-delay: 1.2s; font-size: 1.6rem; color: #FFE873; }
+.p-sparkle.s-4 { bottom: 15%; right: 14%; animation-delay: 0.4s; font-size: 1.7rem; }
+.p-sparkle.s-5 { top: 45%; left: 6%; animation-delay: 1.6s; font-size: 1.2rem; }
+
+@keyframes sparkleTwinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25) rotate(15deg);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9) rotate(-10deg);
+  }
+}
+
+/* Photocard Container */
+.preloader-photocard {
   position: relative;
+  z-index: 2;
   background: #FAFDF9;
   border: 2.5px solid var(--color-ink, #16281E);
-  border-radius: 24px;
-  box-shadow: 6px 6px 0px var(--color-ink, #16281E);
-  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.25rem, 3.5vw, 2rem);
-  max-width: 440px;
+  border-radius: 22px;
+  box-shadow: 7px 7px 0px var(--color-ink, #16281E);
+  padding: clamp(1.15rem, 3vw, 1.45rem);
+  max-width: 390px;
   width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: preloaderCardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: 
+    photocardAppear 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    photocardFloat 4s ease-in-out infinite alternate;
+  transform-origin: center center;
 }
 
-@keyframes preloaderCardPop {
+@keyframes photocardAppear {
   0% {
     opacity: 0;
-    transform: scale(0.88) translateY(20px);
+    transform: scale(0.84) translateY(24px) rotate(-3deg);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) rotate(-1deg);
+  }
+}
+
+@keyframes photocardFloat {
+  0% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-1deg);
   }
 }
 
 /* Washi Tape Accent */
 .preloader-washi {
   position: absolute;
-  top: -12px;
+  top: -13px;
   left: 50%;
-  transform: translateX(-50%) rotate(-1deg);
-  width: 100px;
-  height: 22px;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 105px;
+  height: 24px;
   background: rgba(174, 242, 156, 0.95);
-  border: 1px solid rgba(22, 40, 30, 0.3);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  border: 1.5px solid rgba(22, 40, 30, 0.35);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  z-index: 5;
+  clip-path: polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%);
 }
 
-/* 7 Chibis Wave Parade */
-.preloader-chibis-wrap {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: clamp(4px, 1.5vw, 8px);
-  margin: 0.5rem 0 1.25rem 0;
-  padding: 0.5rem 0;
-  width: 100%;
-}
-
-.preloader-chibi-item {
+/* Official 7Dream Badge Stamp */
+.preloader-stamp-badge {
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  background: var(--color-neobong-neon, #D1F737);
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0px var(--color-ink, #16281E);
+  padding: 0.25rem 0.55rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  animation: chibiWaveBounce 1.2s ease-in-out infinite alternate;
+  line-height: 1;
+  transform: rotate(14deg);
+  z-index: 6;
+  pointer-events: none;
+  animation: stampPulse 2s ease-in-out infinite alternate;
 }
 
-.preloader-chibi-item img {
-  width: clamp(38px, 9vw, 50px);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(1.5px 1.5px 0px rgba(22, 40, 30, 0.35));
-  transition: transform 0.2s ease;
+.preloader-stamp-badge .stamp-top {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--color-ink, #16281E);
 }
 
-/* Staggered Delay for wave motion */
-.preloader-chibi-item:nth-child(1) { animation-delay: 0.0s; }
-.preloader-chibi-item:nth-child(2) { animation-delay: 0.15s; }
-.preloader-chibi-item:nth-child(3) { animation-delay: 0.3s; }
-.preloader-chibi-item:nth-child(4) { animation-delay: 0.45s; }
-.preloader-chibi-item:nth-child(5) { animation-delay: 0.6s; }
-.preloader-chibi-item:nth-child(6) { animation-delay: 0.75s; }
-.preloader-chibi-item:nth-child(7) { animation-delay: 0.9s; }
+.preloader-stamp-badge .stamp-bottom {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #365040;
+}
 
-@keyframes chibiWaveBounce {
+@keyframes stampPulse {
+  0% { transform: rotate(14deg) scale(1); }
+  100% { transform: rotate(16deg) scale(1.06); }
+}
+
+/* Polaroid Photo Frame */
+.preloader-photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 2.9;
+  background: #16281E;
+  border: 2px solid var(--color-ink, #16281E);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.preloader-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+  filter: contrast(1.05) brightness(1.02);
+  transition: transform 0.6s ease;
+  animation: photoSlowZoom 6s ease-in-out infinite alternate;
+}
+
+@keyframes photoSlowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.04); }
+}
+
+/* Holographic Rainbow Foil Sheen */
+.preloader-holo-overlay {
+  position: absolute;
+  inset: -60%;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(209, 247, 55, 0.22) 33%,
+    rgba(255, 182, 217, 0.30) 45%,
+    rgba(142, 228, 255, 0.28) 58%,
+    transparent 72%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: holoSheenSweep 3s ease-in-out infinite;
+}
+
+@keyframes holoSheenSweep {
   0% {
-    transform: translateY(0px) rotate(-3deg);
+    transform: rotate(25deg) translateY(-80%);
+    opacity: 0;
   }
-  50% {
-    transform: translateY(-10px) rotate(3deg);
+  30% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.85;
   }
   100% {
-    transform: translateY(0px) rotate(-3deg);
+    transform: rotate(25deg) translateY(80%);
+    opacity: 0;
   }
 }
 
-/* Text & Title */
+/* Photo Corner Light Reflection */
+.preloader-photo-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Caption Section */
+.preloader-caption-wrap {
+  width: 100%;
+  margin: 0.8rem 0 0.9rem 0;
+}
+
 .preloader-brand-title {
   font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
   font-size: 1.15rem;
   font-weight: 900;
   color: var(--color-ink, #16281E);
   letter-spacing: -0.02em;
-  margin-bottom: 0.2rem;
+  line-height: 1.2;
 }
 
 .preloader-handwritten {
@@ -132,7 +262,8 @@ body.is-loading {
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--color-ink-muted, #365040);
-  margin-bottom: 1.25rem;
+  line-height: 1.2;
+  margin-top: 0.15rem;
 }
 
 /* Progress Bar Container */
@@ -140,26 +271,38 @@ body.is-loading {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .preloader-track {
   width: 100%;
-  height: 14px;
+  height: 13px;
   background: #E8EDE8;
   border: 2px solid var(--color-ink, #16281E);
   border-radius: 999px;
   overflow: hidden;
   position: relative;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .preloader-fill {
   height: 100%;
   width: 0%;
-  background: var(--color-neobong-neon, #D1F737);
+  background: linear-gradient(90deg, #A8E82E 0%, #D1F737 100%);
   border-right: 2px solid var(--color-ink, #16281E);
-  transition: width 0.1s linear;
+  position: relative;
+  transition: width 0.08s linear;
+}
+
+.preloader-glow-head {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px #D1F737, 0 0 12px #FFFFFF;
+  border-radius: 50%;
 }
 
 .preloader-status-row {
@@ -169,10 +312,41 @@ body.is-loading {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-ink-light, #566D5D);
+  min-height: 1.2rem;
+}
+
+#preloader-status-text {
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
 }
 
 #preloader-percent {
   font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
   font-weight: 900;
   color: var(--color-ink, #16281E);
+  letter-spacing: -0.01em;
+}
+
+/* Mobile Responsiveness adjustments */
+@media (max-width: 480px) {
+  .preloader-photocard {
+    max-width: 325px;
+    padding: 1.1rem 1rem;
+    box-shadow: 5px 5px 0px var(--color-ink, #16281E);
+  }
+
+  .preloader-brand-title {
+    font-size: 1.05rem;
+  }
+
+  .preloader-handwritten {
+    font-size: 1.2rem;
+  }
+
+  .preloader-status-row {
+    font-size: 0.74rem;
+  }
 }

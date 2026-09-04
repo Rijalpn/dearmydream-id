@@ -22,49 +22,55 @@
 </head>
 <body class="is-loading">
 
-  <!-- 7Dream Youth Capsule Preloader -->
+  <!-- 7Dream Special Edition Photocard Preloader -->
   <div id="site-preloader" role="status" aria-label="Loading DearMyDream.id">
-    <div class="preloader-card">
+    <!-- Ambient Floating Sparkles -->
+    <div class="preloader-sparkles" aria-hidden="true">
+      <span class="p-sparkle s-1">✦</span>
+      <span class="p-sparkle s-2">★</span>
+      <span class="p-sparkle s-3">✦</span>
+      <span class="p-sparkle s-4">✨</span>
+      <span class="p-sparkle s-5">★</span>
+    </div>
+
+    <div class="preloader-card preloader-photocard">
+      <!-- Top Washi Tape Detail -->
       <div class="preloader-washi" aria-hidden="true"></div>
 
-      <!-- 7 Chibi Animated Wave Parade -->
-      <div class="preloader-chibis-wrap" aria-hidden="true">
-        <div class="preloader-chibi-item" title="Mark">
-          <img src="/chibi/mark.png" alt="Mark">
+      <!-- NCT Dream Official Badge Stamp -->
+      <div class="preloader-stamp-badge" aria-hidden="true">
+        <span class="stamp-top">7DREAM</span>
+        <span class="stamp-bottom">SPECIAL</span>
+      </div>
+
+      <!-- Holographic Polaroid Photo Frame -->
+      <div class="preloader-photo-frame">
+        <img src="/brand/7dream-youth.jpg" alt="7Dream NCT DREAM" class="preloader-photo-img" loading="eager">
+        <!-- Holographic Rainbow Foil Sheen -->
+        <div class="preloader-holo-overlay" aria-hidden="true"></div>
+        <!-- Light Glare Shimmer -->
+        <div class="preloader-photo-glare" aria-hidden="true"></div>
+      </div>
+
+      <!-- Polaroid Handwritten Caption -->
+      <div class="preloader-caption-wrap">
+        <div class="preloader-brand-title">
+          DearMyDream<span style="color: var(--color-ink-light, #566D5D);">.id</span>
         </div>
-        <div class="preloader-chibi-item" title="Renjun">
-          <img src="/chibi/renjun.png" alt="Renjun">
-        </div>
-        <div class="preloader-chibi-item" title="Jeno">
-          <img src="/chibi/jeno.png" alt="Jeno">
-        </div>
-        <div class="preloader-chibi-item" title="Haechan">
-          <img src="/chibi/haechan.png" alt="Haechan">
-        </div>
-        <div class="preloader-chibi-item" title="Jaemin">
-          <img src="/chibi/jaemin.png" alt="Jaemin">
-        </div>
-        <div class="preloader-chibi-item" title="Chenle">
-          <img src="/chibi/chenle.png" alt="Chenle">
-        </div>
-        <div class="preloader-chibi-item" title="Jisung">
-          <img src="/chibi/jisung.png" alt="Jisung">
+        <div class="preloader-handwritten">
+          7Dream, Our Youth & Future ✨
         </div>
       </div>
 
-      <div class="preloader-brand-title">
-        DearMyDream<span style="color: var(--color-ink-light, #566D5D);">.id</span>
-      </div>
-      <div class="preloader-handwritten">
-        My Dream is My Youth ✨
-      </div>
-
+      <!-- Neon Progress Bar & Dynamic Status -->
       <div class="preloader-progress-wrap">
         <div class="preloader-track">
-          <div id="preloader-progress-fill" class="preloader-fill"></div>
+          <div id="preloader-progress-fill" class="preloader-fill">
+            <span class="preloader-glow-head"></span>
+          </div>
         </div>
         <div class="preloader-status-row">
-          <span>Memuat Ruang Kumpul...</span>
+          <span id="preloader-status-text">Menyiapkan Ruang Kumpul...</span>
           <span id="preloader-percent">0%</span>
         </div>
       </div>
