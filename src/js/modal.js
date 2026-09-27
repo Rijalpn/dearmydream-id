@@ -3,7 +3,7 @@
  * Lightbox, Google Maps direct route, and HD Zoom Viewer
  */
 
-import { eventsArchive } from './data.js';
+import { eventsArchive, siteConfig } from './data.js';
 
 let activeZoomLevel = 1;
 let isPanning = false;
@@ -107,7 +107,7 @@ export function openModal(eventData) {
         ${eventData.title}
       </h2>
       <p style="font-family: var(--font-handwritten); font-size: 1.35rem; font-weight: 700; color: var(--color-ink-muted);">
-        ${eventData.subtitle} — ${eventData.handwrittenNote}
+        ${eventData.subtitle}${eventData.handwrittenNote ? ` — ${eventData.handwrittenNote}` : ''}
       </p>
     </div>
 
@@ -135,13 +135,29 @@ export function openModal(eventData) {
       </div>
     ` : ''}
 
+    ${eventData.isComingSoon ? `
+      <div style="margin-bottom: 1.25rem; background: linear-gradient(135deg, #EFF6FF 0%, #FAFDF9 100%); border: 2px solid #2563EB; border-radius: 14px; padding: 0.9rem 1.1rem; box-shadow: 3px 3px 0px var(--color-ink, #16281E);">
+        <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; color: #1E40AF; margin-bottom: 4px;">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2563EB; box-shadow: 0 0 6px #2563EB;"></span>
+          <span>STATUS: COMING SOON (PROJECT VOL. 03)</span>
+        </div>
+        <p style="font-size: 0.84rem; color: var(--color-ink, #16281E); line-height: 1.45; margin: 0 0 10px 0;">
+          Event gathering & nobar spesial The Dream Show 4 sedang dalam persiapan! Info tiket (HTM) & venue resmi di Bandung akan diumumkan via Grup WA & Instagram.
+        </p>
+        <a href="${siteConfig.whatsappGroupUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-neo" style="width: 100%; justify-content: center; font-size: 0.84rem; padding: 0.6rem 0.9rem;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <span>Gabung Grup WA untuk Info Tiket 💬</span>
+        </a>
+      </div>
+    ` : ''}
+
     <div class="modal-info-grid">
       <div class="modal-info-item" style="grid-column: 1 / -1;">
         <div class="modal-info-label">📍 Lokasi Venue</div>
         <div class="modal-info-val" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
           <span>${eventData.details.location}</span>
           <a href="${eventData.details.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-direct">
-            <span>Buka Google Maps ↗</span>
+            <span>${eventData.isComingSoon ? 'Pantau IG @dear_mydream.id ↗' : 'Buka Google Maps ↗'}</span>
           </a>
         </div>
       </div>
@@ -155,19 +171,23 @@ export function openModal(eventData) {
       </div>
     </div>
 
-    <div style="margin-top: 1.25rem;">
-      <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-ink); margin-bottom: 0.4rem;">✨ Highlight Aktivitas</h4>
-      <ul style="list-style: none; padding-left: 0; font-size: 0.9rem; color: var(--color-ink-muted);">
-        ${activitiesHtml}
-      </ul>
-    </div>
-
-    <div style="margin-top: 1.25rem;">
-      <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-ink); margin-bottom: 0.4rem;">🎁 Starter Kit & Freebies</h4>
-      <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-        ${freebiesHtml}
+    ${eventData.details.activities && eventData.details.activities.length > 0 ? `
+      <div style="margin-top: 1.25rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-ink); margin-bottom: 0.4rem;">✨ Highlight Aktivitas</h4>
+        <ul style="list-style: none; padding-left: 0; font-size: 0.9rem; color: var(--color-ink-muted);">
+          ${activitiesHtml}
+        </ul>
       </div>
-    </div>
+    ` : ''}
+
+    ${eventData.details.freebies && eventData.details.freebies.length > 0 ? `
+      <div style="margin-top: 1.25rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-ink); margin-bottom: 0.4rem;">🎁 Starter Kit & Freebies</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+          ${freebiesHtml}
+        </div>
+      </div>
+    ` : ''}
 
     ${eventData.details.sponsors && eventData.details.sponsors.length > 0 ? `
       <div style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 2px dashed rgba(22, 40, 30, 0.15);">

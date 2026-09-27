@@ -5,6 +5,33 @@
 
 export const eventsArchive = [
   {
+    id: "dear-dream-replay-the-dream-show-4",
+    category: "dream",
+    isComingSoon: true,
+    title: "Dear Dream: Replay The Dream Show 4",
+    subtitle: "Project Vol. 03 • Bandung (Coming Soon)",
+    edition: "Vol. 03 • Bandung (Coming Soon)",
+    dateFormatted: "Segera Diumumkan (Coming Soon)",
+    tagText: "⚡ The Dream Show 4",
+    badgeClass: "badge-soon",
+    tilt: "slight-left",
+    washiClass: "blue",
+    handwrittenNote: "",
+    coverImage: "/events/vol03_dear_dream_replay_tds4.jpg",
+    gallery: [
+      { src: "/events/vol03_dear_dream_replay_tds4.jpg", caption: "Teaser Poster Resmi Dear Dream: Replay The Dream Show 4" }
+    ],
+    details: {
+      location: "Kota Bandung (Venue segera diumumkan)",
+      mapsUrl: "https://www.instagram.com/dear_mydream.id/",
+      dresscode: "Segera Diumumkan",
+      activities: [],
+      freebies: [],
+      sponsors: [],
+      mediaPartners: []
+    }
+  },
+  {
     id: "dear-dream-pajama-party",
     category: "dream",
     title: "Dear Dream: Pajama Party",
